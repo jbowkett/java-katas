@@ -16,20 +16,20 @@ public class LinkedListTest {
 
   @Test
   public void tesAdd()throws Exception{
-    final LinkedList list = new LinkedList();
+    final LinkedList<String> list = new LinkedList<String>();
     list.add("first Add");
   }
 
   @Test
   public void addTwoItems()throws Exception{
-    final LinkedList list = new LinkedList();
+    final LinkedList<String> list = new LinkedList<String>();
     list.add("first Add");
     list.add("second Add");
   }
 
   @Test
   public void addTwoItemsAndRetrieve()throws Exception{
-    final LinkedList list = new LinkedList();
+    final LinkedList<String> list = new LinkedList<String>();
     list.add("first Add");
     final String secondValue = "second Add";
     list.add(secondValue);

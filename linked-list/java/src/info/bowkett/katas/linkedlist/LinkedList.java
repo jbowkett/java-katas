@@ -9,34 +9,34 @@ package info.bowkett.katas.linkedlist;
  * Time: 8:06:16 AM
  * To change this template use File | Settings | File Templates.
  */
-public class LinkedList {
+public class LinkedList<T> {
 
-  private ListItem root = new ListItem();
+  private ListItem<T> root = new ListItem<T>();
 
-  public void add(Object value) {
+  public void add(T value) {
     root.add(value);
   }
 
 
-  public Object get(int i) {
+  public T get(int i) {
     return root.get(i, 0);
   }
 
-  class ListItem{
-    private Object value;
-    private ListItem next;
+  class ListItem<T>{
+    private T value;
+    private ListItem<T> next;
 
-    public void add(Object value) {
+    public void add(T value) {
       if(this.value == null){
         this.value = value;
       }
       else{
-        if(next == null) next = new ListItem();
+        if(next == null) next = new ListItem<T>();
         next.add(value);
       }
     }
 
-    private Object get(int i, int currentIndex) {
+    private T get(int i, int currentIndex) {
       if(i == currentIndex ) return value;
       return next.get(i, currentIndex + 1);
     }
