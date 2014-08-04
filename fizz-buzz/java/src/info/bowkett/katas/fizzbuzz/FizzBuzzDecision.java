@@ -5,14 +5,25 @@ package info.bowkett.katas.fizzbuzz;
  */
 public class FizzBuzzDecision {
 
+  private static final String FIZZ = "Fizz";
+  private static final String BUZZ = "Buzz";
+
   public String forValue(int value) {
     final StringBuilder toReturn = new StringBuilder();
-    if(value % 3 == 0){
-      toReturn.append("Fizz");
+    if(isDivisibleBy3(value)){
+      toReturn.append(FIZZ);
     }
-    if(value % 5 == 0){
-      toReturn.append("Buzz");
+    if(isDivisibleBy5(value)){
+      toReturn.append(BUZZ);
     }
     return toReturn.toString();
+  }
+
+  private boolean isDivisibleBy3(int value) {
+    return value % 3 == 0;
+  }
+
+  private boolean isDivisibleBy5(int value) {
+    return value % 5 == 0;
   }
 }
