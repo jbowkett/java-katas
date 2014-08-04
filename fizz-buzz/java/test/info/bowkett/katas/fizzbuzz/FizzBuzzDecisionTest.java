@@ -26,10 +26,7 @@ public class FizzBuzzDecisionTest {
   }
 
   @Test
-  public void ensureDivisibleByNeither3Nor5IsNull(){
-    assertNull(new FizzBuzzDecision().forValue(7));
+  public void ensureDivisibleByNeither3Nor5IsEmptyString(){
+    assertEquals("", new FizzBuzzDecision().forValue(7));
   }
-
-
-
 }

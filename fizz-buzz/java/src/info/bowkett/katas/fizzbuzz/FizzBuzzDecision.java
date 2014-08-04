@@ -6,16 +6,13 @@ package info.bowkett.katas.fizzbuzz;
 public class FizzBuzzDecision {
 
   public String forValue(int value) {
-
-    if(value % 3 == 0 && value % 5 == 0){
-      return "FizzBuzz";
+    final StringBuilder toReturn = new StringBuilder();
+    if(value % 3 == 0){
+      toReturn.append("Fizz");
     }
-    else if(value % 3 == 0){
-      return "Fizz";
+    if(value % 5 == 0){
+      toReturn.append("Buzz");
     }
-    else if(value % 5 == 0){
-      return "Buzz";
-    }
-    return null;
+    return toReturn.toString();
   }
 }
