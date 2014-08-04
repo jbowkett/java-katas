@@ -26,4 +26,17 @@ public class FizzBuzzDecision {
   private boolean isDivisibleBy5(int value) {
     return value % 5 == 0;
   }
+
+  public static void main(String [] args){
+    final FizzBuzzDecision decision = new FizzBuzzDecision();
+    for (int i = 1; i <= 100 ; i++){
+      final String fb = decision.forValue(i);
+      if(fb.length() ==  0){
+        System.out.println(i);
+      }
+      else{
+        System.out.println(fb);
+      }
+    }
+  }
 }
