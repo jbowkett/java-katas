@@ -1,7 +1,6 @@
 package info.bowkett.katas.linkedlist;
 
 
-
 /**
  * Created by IntelliJ IDEA.
  * User: jbowkett
@@ -22,22 +21,22 @@ public class LinkedList<T> {
     return root.get(i, 0);
   }
 
-  class ListItem<T>{
+  class ListItem<T> {
     private T value;
     private ListItem<T> next;
 
     public void add(T value) {
-      if(this.value == null){
+      if (this.value == null) {
         this.value = value;
       }
-      else{
-        if(next == null) next = new ListItem<T>();
+      else {
+        if (next == null) next = new ListItem<T>();
         next.add(value);
       }
     }
 
     private T get(int i, int currentIndex) {
-      if(i == currentIndex ) return value;
+      if (i == currentIndex) return value;
       return next.get(i, currentIndex + 1);
     }
   }
