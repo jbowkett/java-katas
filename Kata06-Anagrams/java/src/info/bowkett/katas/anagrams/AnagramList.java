@@ -1,13 +1,14 @@
 package info.bowkett.katas.anagrams;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Stream;
 
 /**
  * Created by jbowkett on 05/08/2014.
  */
 public class AnagramList {
-
 
   private List<String> anagrams = new ArrayList<>();
 
@@ -25,14 +26,17 @@ public class AnagramList {
   }
 
   public static Collection<AnagramList> anagramsIn(Stream<String> seedStream) {
-    final Map<String, AnagramList> seenStrings = new HashMap<>();
-    seedStream.forEach(s -> {
+    final ConcurrentMap<String, AnagramList> seenStrings = new ConcurrentHashMap<>();
+    seedStream.parallel().forEach(s -> {
       final char[] seedChars = s.toCharArray();
       Arrays.sort(seedChars);
       final String key = new String(seedChars);
-      final AnagramList anagramList = seenStrings.get(key) == null ? new AnagramList() : seenStrings.get(key);
-      anagramList.add(s);
-      seenStrings.put(key, anagramList);
+      // if already in the list - it's an anagram
+      seenStrings.putIfAbsent(key, new AnagramList());
+      seenStrings.computeIfPresent(key, (k,list) -> {
+        list.add(s);
+        return list;
+      });
     });
     final Collection<AnagramList> listsOfAnagrams = seenStrings.values();
     listsOfAnagrams.removeIf(anagramList -> anagramList.size() == 1);
