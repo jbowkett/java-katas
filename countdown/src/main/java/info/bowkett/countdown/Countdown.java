@@ -11,47 +11,47 @@ public class Countdown {
 
     final int [] allNumbers = {firstNumber, secondNumber, thirdNumber, fourthNumber, fifthNumber, sixthNumber};
 
-    final List<Permutation> permutations = getPermutations(allNumbers);
+    final List<NumberPermutation> numberPermutations = getNumberPermutations(allNumbers);
 
     return null;
   }
 
-  List<Permutation> getPermutations(int[] allNumbers) {
-    final List<Permutation> permutations = new ArrayList<>();
+  List<NumberPermutation> getNumberPermutations(int[] allNumbers) {
+    final List<NumberPermutation> numberPermutations = new ArrayList<>();
     for (int i = 0; i < allNumbers.length; i++) {
       final int first = allNumbers[i];
-      permutations.add(new Permutation(first));
+      numberPermutations.add(new NumberPermutation(first));
 
       for (int j = 0; j < allNumbers.length; j++) {
         if(i == j) continue;
         final int second = allNumbers[j];
-        permutations.add(new Permutation(first, second));
+        numberPermutations.add(new NumberPermutation(first, second));
 
         for (int k = 0; k < allNumbers.length; k++) {
           if (j == k || i == k) continue;
           final int third = allNumbers[k];
-          permutations.add(new Permutation(first, second, third));
+          numberPermutations.add(new NumberPermutation(first, second, third));
 
           for (int l = 0; l < allNumbers.length; l++) {
             if(l == k || l == j || l == i) continue;
             final int fourth = allNumbers[l];
-            permutations.add(new Permutation(first, second, third, fourth));
+            numberPermutations.add(new NumberPermutation(first, second, third, fourth));
 
             for (int m = 0; m < allNumbers.length; m++) {
               if(m == l || m == k || m == j || m == i) continue;
               final int fifth = allNumbers[m];
-              permutations.add(new Permutation(first, second, third, fourth, fifth));
+              numberPermutations.add(new NumberPermutation(first, second, third, fourth, fifth));
 
               for (int n = 0; n < allNumbers.length; n++) {
                 if(n == m || n == l || n == k || n == j || n == i) continue;
                 final int sixth = allNumbers[n];
-                permutations.add(new Permutation(first, second, third, fourth, fifth, sixth));
+                numberPermutations.add(new NumberPermutation(first, second, third, fourth, fifth, sixth));
               }
             }
           }
         }
       }
     }
-    return permutations;
+    return numberPermutations;
   }
 }

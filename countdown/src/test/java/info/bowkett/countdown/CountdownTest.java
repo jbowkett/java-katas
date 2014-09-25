@@ -2,10 +2,8 @@ package info.bowkett.countdown;
 
 import org.junit.Test;
 import org.junit.Before;
-import org.junit.After;
 
 import java.util.List;
-import java.util.Set;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -34,7 +32,7 @@ public class CountdownTest {
 
   @Test
   public void testPermutationsWithTwoNumbers(){
-    final List<Permutation> permutations = countdown.getPermutations(new int[]{1, 2, 3, 4, 5, 6});
+    final List<NumberPermutation> numberPermutations = countdown.getNumberPermutations(new int[]{1, 2, 3, 4, 5, 6});
 //    1 => 1         1 * 1    = 1
 //    2 => 4         2 * 2    = 2 * (F(1)+1)
 //    3 => 15        3 * 5    = 3 * (F(2) + 1)
@@ -49,7 +47,7 @@ public class CountdownTest {
     System.out.println("function(5) = " + function(5));
     System.out.println("function(6) = " + function(6));
 
-    assertEquals(function(6), permutations.size());
+    assertEquals(function(6), numberPermutations.size());
   }
 
   private int function(int param){
