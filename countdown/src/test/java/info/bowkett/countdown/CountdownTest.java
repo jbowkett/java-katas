@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.After;
 
 import java.util.List;
+import java.util.Set;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -48,7 +49,7 @@ public class CountdownTest {
     System.out.println("function(5) = " + function(5));
     System.out.println("function(6) = " + function(6));
 
-    assertEquals(-1, permutations.size());
+    assertEquals(function(6), permutations.size());
   }
 
   private int function(int param){
