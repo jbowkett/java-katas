@@ -30,7 +30,13 @@ public class CountdownTest {
     assertEquals(5, solution.size());
     System.out.println("solution.size() = " + solution.size());
     solution.stream().forEach(cp -> System.out.println(total + " = " + cp));
+  }
 
+  @Test
+  public void testWithNoSolutionSet(){
+    final int total = 779;
+    final List<Calculation> solution = countdown.calculate(total, 3, 4, 1,2,6,5);
+    assertEquals(0, solution.size());
   }
 
   @Test
