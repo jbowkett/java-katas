@@ -4,44 +4,40 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static info.bowkett.countdown.CalculationPermutation.Operator;
-
 /**
  * Created by jbowkett on 24/09/2014.
  */
 public class Countdown {
+  private final Calculator calc;
+
+  public Countdown(Calculator calc) {
+    this.calc = calc;
+  }
 
   public List<CalculationPermutation> calculate(int total, int firstNumber, int secondNumber, int thirdNumber, int fourthNumber, int fifthNumber, int sixthNumber) {
 
     final int[] allNumbers = {firstNumber, secondNumber, thirdNumber, fourthNumber, fifthNumber, sixthNumber};
 
     final List<NumberPermutation> numberPermutations = getNumberPermutations(allNumbers);
-    final Stream<CalculationPermutation> calculationPermutationStream =
+    final Stream<CalculationPermutation> calculationPermutations =
         numberPermutations
             .parallelStream()
             .flatMap(np -> np.getCalculationPermutations().stream());
 
-    final Stream<CalculationPermutation> allMatches = calculationPermutationStream.parallel().filter(
-        cp -> {
-          final int[] numbers = cp.numberNumberPermutation.getNumbers();
-          final Operator[] operations = cp.operations;
-          int accumulator = numbers[0];
-          for (int i = 1; i < numbers.length; i++) {
-            final int number = numbers[i];
-            final Operator operator = operations[i - 1];
-            switch (operator) {
-              case PLUS:     accumulator += number; break;
-              case MINUS:    accumulator -= number; break;
-              case MULTIPLY: accumulator *= number; break;
-              case DIVIDE:   accumulator /= number; break;
+    final Stream<CalculationPermutation> allSolutions =
+        calculationPermutations.parallel().filter(
+            cp -> {
+              try{
+                return total == calc.solve(cp);
+              }
+              catch(ArithmeticException ae){
+                //on division result yields floating point
+                return false;
+              }
             }
-          }
-          return accumulator == total;
-        }
-    );
-
+        );
     final List<CalculationPermutation> solutions = new ArrayList<>();
-    allMatches.forEach(solutions::add);
+    allSolutions.forEach(solutions::add);
     return solutions;
   }
 

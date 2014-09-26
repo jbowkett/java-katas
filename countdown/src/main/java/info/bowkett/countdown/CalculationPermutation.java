@@ -18,13 +18,21 @@ public class CalculationPermutation {
       return toString;
     }
   }
-  public final NumberPermutation numberNumberPermutation;
+  private final NumberPermutation numberNumberPermutation;
 
-  public final Operator[] operations;
+  private final Operator[] operations;
 
   public CalculationPermutation(NumberPermutation numberPermutation, Operator...operations) {
     this.numberNumberPermutation = numberPermutation;
     this.operations = operations;
+  }
+
+  public NumberPermutation getNumberNumberPermutation() {
+    return numberNumberPermutation;
+  }
+
+  public Operator[] getOperations() {
+    return operations;
   }
 
   @Override
