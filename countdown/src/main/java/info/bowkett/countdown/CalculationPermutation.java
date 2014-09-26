@@ -18,9 +18,9 @@ public class CalculationPermutation {
       return toString;
     }
   }
-  private final NumberPermutation numberNumberPermutation;
+  public final NumberPermutation numberNumberPermutation;
 
-  private final Operator[] operations;
+  public final Operator[] operations;
 
   public CalculationPermutation(NumberPermutation numberPermutation, Operator...operations) {
     this.numberNumberPermutation = numberPermutation;
@@ -29,18 +29,12 @@ public class CalculationPermutation {
 
   @Override
   public String toString() {
-    final StringBuilder sb = new StringBuilder("CalculationPermutation[ ");
-
     final int[] numbers = numberNumberPermutation.getNumbers();
-    int operatorIndex = 0;
-    for (int number : numbers) {
-      sb.append(number);
-
-      if (operatorIndex < operations.length) {
-        sb.append(' ').append(operations[operatorIndex++]).append(' ');
-      }
+    final StringBuilder sb = new StringBuilder(""+numbers[0]);
+    for (int i = 1; i < numbers.length ; i++) {
+      sb.append(' ').append(operations[i - 1]).append(' ');
+      sb.append(numbers[i]);
     }
-    sb.append(" ]");
     return sb.toString();
   }
 }

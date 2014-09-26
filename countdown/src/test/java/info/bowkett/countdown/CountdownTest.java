@@ -25,13 +25,14 @@ public class CountdownTest {
   }
 
   @Test
-  public void testWithTwoNumbers(){
-    final Solution solution = countdown.calculate(100, 1, 2, 3, 4, 5, 6);
-    assertNotNull(solution);
+  public void testWithSmallSolutionSet(){
+    final List<CalculationPermutation> solution = countdown.calculate(779, 3, 33, 1,2,7,9);
+    System.out.println("solution.size() = " + solution.size());
+    assertEquals(5, solution.size());
   }
 
   @Test
-  public void testPermutationsWithTwoNumbers(){
+  public void testPermutationsWithSixNumbers(){
     final List<NumberPermutation> numberPermutations = countdown.getNumberPermutations(new int[]{1, 2, 3, 4, 5, 6});
 //    1 => 1         1 * 1    = 1
 //    2 => 4         2 * 2    = 2 * (F(1)+1)

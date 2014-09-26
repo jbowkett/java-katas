@@ -2,18 +2,52 @@ package info.bowkett.countdown;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
+
+import static info.bowkett.countdown.CalculationPermutation.Operator;
 
 /**
  * Created by jbowkett on 24/09/2014.
  */
 public class Countdown {
-  public Solution calculate(int total, int firstNumber, int secondNumber, int thirdNumber, int fourthNumber, int fifthNumber, int sixthNumber) {
 
-    final int [] allNumbers = {firstNumber, secondNumber, thirdNumber, fourthNumber, fifthNumber, sixthNumber};
+  public List<CalculationPermutation> calculate(int total, int firstNumber, int secondNumber, int thirdNumber, int fourthNumber, int fifthNumber, int sixthNumber) {
+
+    final int[] allNumbers = {firstNumber, secondNumber, thirdNumber, fourthNumber, fifthNumber, sixthNumber};
 
     final List<NumberPermutation> numberPermutations = getNumberPermutations(allNumbers);
+    final Stream<CalculationPermutation> calculationPermutationStream =
+        numberPermutations
+            .stream()
+            .flatMap(np -> np.getCalculationPermutations().stream());
 
-    return null;
+
+    final List<CalculationPermutation> solutions = new ArrayList<>();
+    calculationPermutationStream.forEach(
+        cp -> {
+          final int[] numbers = cp.numberNumberPermutation.getNumbers();
+          final Operator[] operations = cp.operations;
+          int accumulator = numbers[0];
+          for (int i = 1; i < numbers.length; i++) {
+            final int number = numbers[i];
+            final Operator operator = operations[i-1];
+            switch (operator) {
+              case PLUS: accumulator += number; break;
+              case MINUS: accumulator -= number; break;
+              case MULTIPLY: accumulator *= number; break;
+              case DIVIDE: accumulator /= number; break;
+            }
+          }
+
+          if (accumulator == total) {
+            System.out.println(total + " = " + cp);
+            solutions.add(cp);
+          }
+        }
+      );
+    return solutions;
   }
 
   List<NumberPermutation> getNumberPermutations(int[] allNumbers) {
@@ -23,7 +57,7 @@ public class Countdown {
       numberPermutations.add(new NumberPermutation(first));
 
       for (int j = 0; j < allNumbers.length; j++) {
-        if(i == j) continue;
+        if (i == j) continue;
         final int second = allNumbers[j];
         numberPermutations.add(new NumberPermutation(first, second));
 
@@ -33,17 +67,17 @@ public class Countdown {
           numberPermutations.add(new NumberPermutation(first, second, third));
 
           for (int l = 0; l < allNumbers.length; l++) {
-            if(l == k || l == j || l == i) continue;
+            if (l == k || l == j || l == i) continue;
             final int fourth = allNumbers[l];
             numberPermutations.add(new NumberPermutation(first, second, third, fourth));
 
             for (int m = 0; m < allNumbers.length; m++) {
-              if(m == l || m == k || m == j || m == i) continue;
+              if (m == l || m == k || m == j || m == i) continue;
               final int fifth = allNumbers[m];
               numberPermutations.add(new NumberPermutation(first, second, third, fourth, fifth));
 
               for (int n = 0; n < allNumbers.length; n++) {
-                if(n == m || n == l || n == k || n == j || n == i) continue;
+                if (n == m || n == l || n == k || n == j || n == i) continue;
                 final int sixth = allNumbers[n];
                 numberPermutations.add(new NumberPermutation(first, second, third, fourth, fifth, sixth));
               }
