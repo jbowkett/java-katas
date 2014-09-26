@@ -14,17 +14,15 @@ public class Countdown {
     this.calc = calc;
   }
 
-  public List<CalculationPermutation> calculate(int total, int firstNumber, int secondNumber, int thirdNumber, int fourthNumber, int fifthNumber, int sixthNumber) {
-
-    final int[] allNumbers = {firstNumber, secondNumber, thirdNumber, fourthNumber, fifthNumber, sixthNumber};
+  public List<Calculation> calculate(int total, int [] allNumbers) {
 
     final List<NumberPermutation> numberPermutations = getNumberPermutations(allNumbers);
-    final Stream<CalculationPermutation> calculationPermutations =
+    final Stream<Calculation> calculationPermutations =
         numberPermutations
             .parallelStream()
             .flatMap(np -> np.getCalculationPermutations().stream());
 
-    final Stream<CalculationPermutation> allSolutions =
+    final Stream<Calculation> allSolutions =
         calculationPermutations.parallel().filter(
             cp -> {
               try{
@@ -36,7 +34,7 @@ public class Countdown {
               }
             }
         );
-    final List<CalculationPermutation> solutions = new ArrayList<>();
+    final List<Calculation> solutions = new ArrayList<>();
     allSolutions.forEach(solutions::add);
     return solutions;
   }
@@ -78,5 +76,10 @@ public class Countdown {
       }
     }
     return numberPermutations;
+  }
+
+  public List<Calculation> calculate(int total, int firstNumber, int secondNumber, int thirdNumber, int fourthNumber, int fifthNumber, int sixthNumber) {
+    final int[] allNumbers = {firstNumber, secondNumber, thirdNumber, fourthNumber, fifthNumber, sixthNumber};
+    return calculate(total, allNumbers);
   }
 }

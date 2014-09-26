@@ -2,8 +2,8 @@ package info.bowkett.countdown;
 
 import java.util.*;
 
-import static info.bowkett.countdown.CalculationPermutation.*;
-import static info.bowkett.countdown.CalculationPermutation.Operator.*;
+import static info.bowkett.countdown.Calculation.*;
+import static info.bowkett.countdown.Calculation.Operator.*;
 
 /**
  * Created by jbowkett on 24/09/2014.
@@ -33,8 +33,8 @@ public class NumberPermutation  {
     return Arrays.hashCode(numbers);
   }
 
-  public List<CalculationPermutation> getCalculationPermutations() {
-    final List<CalculationPermutation> calculations = new ArrayList<>();
+  public List<Calculation> getCalculationPermutations() {
+    final List<Calculation> calculations = new ArrayList<>();
 
     final int operatorCount = numbers.length -1;
 
@@ -51,23 +51,28 @@ public class NumberPermutation  {
       final List<Operator> operationsList = new ArrayList<>();
       leaf.collectOperations(operationsList);
       final Operator[] operations = new Operator[operationsList.size()];
-      calculations.add(new CalculationPermutation(this, operationsList.toArray(operations)));
+      calculations.add(new Calculation(this, operationsList.toArray(operations)));
     }
     return calculations;
   }
 
   private static class TreeNode{
     private final Operator op;
+    private final boolean isRoot;
 
     private final TreeNode [] children = new TreeNode[4];
     private final TreeNode parent;
 
-    private TreeNode(TreeNode parent, Operator op) {
+    private TreeNode(TreeNode parent, Operator op, boolean isRoot) {
       this.op = op;
       this.parent = parent;
+      this.isRoot = isRoot;
+    }
+    private TreeNode(TreeNode parent, Operator op) {
+      this(parent, op, false);
     }
     private static TreeNode root(){
-      return new TreeNode(null, null);
+      return new TreeNode(null, null, true);
     }
 
     private void addOperatorsToAllLeaves() {
@@ -101,7 +106,7 @@ public class NumberPermutation  {
     }
 
     private void collectOperations(List<Operator> operations) {
-      if (op != null){
+      if (!isRoot){
         operations.add(0, op);
         parent.collectOperations(operations);
       }

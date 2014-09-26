@@ -5,13 +5,13 @@ package info.bowkett.countdown;
  */
 public class Calculator {
 
-  public int solve(CalculationPermutation cp) {
-    final int[] numbers = cp.getNumberNumberPermutation().getNumbers();
-    final CalculationPermutation.Operator[] operations = cp.getOperations();
+  public int solve(Calculation calculation) {
+    final int[] numbers = calculation.getNumberNumberPermutation().getNumbers();
+    final Calculation.Operator[] operations = calculation.getOperations();
     int accumulator = numbers[0];
     for (int i = 1; i < numbers.length; i++) {
       final int number = numbers[i];
-      final CalculationPermutation.Operator operator = operations[i - 1];
+      final Calculation.Operator operator = operations[i - 1];
       switch (operator) {
         case PLUS:     accumulator += number; break;
         case MINUS:    accumulator -= number; break;

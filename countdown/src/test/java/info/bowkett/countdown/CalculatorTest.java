@@ -3,7 +3,7 @@ package info.bowkett.countdown;
 import org.junit.Test; 
 import org.junit.Before;
 
-import static info.bowkett.countdown.CalculationPermutation.*;
+import static info.bowkett.countdown.Calculation.*;
 import static junit.framework.TestCase.assertEquals;
 import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
 import static org.mockito.Mockito.mock;
@@ -27,53 +27,53 @@ public class CalculatorTest {
 
   @Test
   public void testDivision(){
-    final CalculationPermutation permutation =
-        getCalculationPermutation(new int[]{6, 2}, Operator.DIVIDE);
+    final Calculation permutation =
+        getCalculation(new int[]{6, 2}, Operator.DIVIDE);
     final int solution = calculator.solve(permutation);
     assertEquals(3, solution);
   }
 
   @Test(expected=ArithmeticException.class)
   public void testDivisionWithNonWholeResultThrowsException(){
-    final CalculationPermutation permutation =
-        getCalculationPermutation(new int[]{6, 5}, Operator.DIVIDE);
+    final Calculation permutation =
+        getCalculation(new int[]{6, 5}, Operator.DIVIDE);
     calculator.solve(permutation);
   }
 
   @Test
   public void testAddition(){
-    final CalculationPermutation permutation =
-        getCalculationPermutation(new int[]{6, 2}, Operator.PLUS);
-    final int solution = calculator.solve(permutation);
+    final Calculation calculation =
+        getCalculation(new int[]{6, 2}, Operator.PLUS);
+    final int solution = calculator.solve(calculation);
     assertEquals(8, solution);
   }
 
   @Test
   public void testSubtraction(){
-    final CalculationPermutation permutation =
-        getCalculationPermutation(new int[]{6, 2}, Operator.MINUS);
+    final Calculation permutation =
+        getCalculation(new int[]{6, 2}, Operator.MINUS);
     final int solution = calculator.solve(permutation);
     assertEquals(4, solution);
   }
 
   @Test
   public void testSubtractionYieldsNegativeResult(){
-    final CalculationPermutation permutation =
-        getCalculationPermutation(new int[]{6, 12}, Operator.MINUS);
+    final Calculation permutation =
+        getCalculation(new int[]{6, 12}, Operator.MINUS);
     final int solution = calculator.solve(permutation);
     assertEquals(-6, solution);
   }
 
   @Test
   public void testMultiplication(){
-    final CalculationPermutation permutation =
-        getCalculationPermutation(new int[]{6, 2}, Operator.MULTIPLY);
+    final Calculation permutation =
+        getCalculation(new int[]{6, 2}, Operator.MULTIPLY);
     final int solution = calculator.solve(permutation);
     assertEquals(12, solution);
   }
 
-  private CalculationPermutation getCalculationPermutation(int[] numbers, Operator multiply) {
-    final CalculationPermutation permutation = mock(CalculationPermutation.class, RETURNS_DEEP_STUBS);
+  private Calculation getCalculation(int[] numbers, Operator multiply) {
+    final Calculation permutation = mock(Calculation.class, RETURNS_DEEP_STUBS);
     when(permutation.getNumberNumberPermutation().getNumbers()).thenReturn(numbers);
     when(permutation.getOperations()).thenReturn(new Operator[] {multiply});
     return permutation;

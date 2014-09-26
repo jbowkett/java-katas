@@ -10,4 +10,6 @@ Java Katas taken from [CodeKata][]
  * Kata 05 - Bloom Filters
  * Kata 06 - Anagrams (this is interesting because it uses Java 8 parallel 
    streams for processing the input file)
- 
+ * Countdown - Solves Countdown maths puzzles, using brute force to calculate 
+   all permutations of numbers and operators, then evaluating left-to-right
+

@@ -6,7 +6,6 @@ import org.junit.Before;
 import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 /**
  * Countdown Tester.
@@ -27,10 +26,10 @@ public class CountdownTest {
   @Test
   public void testWithSmallSolutionSet(){
     final int total = 779;
-    final List<CalculationPermutation> solution = countdown.calculate(total, 3, 33, 1,2,7,9);
+    final List<Calculation> solution = countdown.calculate(total, 3, 33, 1,2,7,9);
     assertEquals(5, solution.size());
     System.out.println("solution.size() = " + solution.size());
-    solution.stream().forEach(cp -> {System.out.println(total + " = " + cp);});
+    solution.stream().forEach(cp -> System.out.println(total + " = " + cp));
 
   }
 

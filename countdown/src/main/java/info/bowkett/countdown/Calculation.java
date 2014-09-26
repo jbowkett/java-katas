@@ -3,7 +3,7 @@ package info.bowkett.countdown;
 /**
  * Created by jbowkett on 25/09/2014.
  */
-public class CalculationPermutation {
+public class Calculation {
   public static enum Operator {
     MINUS    ("-"),
     DIVIDE   ("/"),
@@ -22,7 +22,7 @@ public class CalculationPermutation {
 
   private final Operator[] operations;
 
-  public CalculationPermutation(NumberPermutation numberPermutation, Operator...operations) {
+  public Calculation(NumberPermutation numberPermutation, Operator... operations) {
     this.numberNumberPermutation = numberPermutation;
     this.operations = operations;
   }

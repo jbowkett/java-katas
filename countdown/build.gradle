@@ -1,0 +1,24 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+sourceCompatibility = 1.8
+version = '1.0'
+mainClassName = "info.bowkett.countdown.Main"
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  testCompile 'junit:junit:4.11',
+          'org.mockito:mockito-core:1.9.5'
+}
+
+test {
+  testLogging.showStandardStreams = true
+}
+
+jar{
+  manifest.attributes("Main-Class": mainClassName)
+}
+
