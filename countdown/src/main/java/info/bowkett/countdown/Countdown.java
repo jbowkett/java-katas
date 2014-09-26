@@ -2,8 +2,6 @@ package info.bowkett.countdown;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ConcurrentSkipListSet;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 import static info.bowkett.countdown.CalculationPermutation.Operator;
@@ -20,33 +18,30 @@ public class Countdown {
     final List<NumberPermutation> numberPermutations = getNumberPermutations(allNumbers);
     final Stream<CalculationPermutation> calculationPermutationStream =
         numberPermutations
-            .stream()
+            .parallelStream()
             .flatMap(np -> np.getCalculationPermutations().stream());
 
-
-    final List<CalculationPermutation> solutions = new ArrayList<>();
-    calculationPermutationStream.forEach(
+    final Stream<CalculationPermutation> allMatches = calculationPermutationStream.parallel().filter(
         cp -> {
           final int[] numbers = cp.numberNumberPermutation.getNumbers();
           final Operator[] operations = cp.operations;
           int accumulator = numbers[0];
           for (int i = 1; i < numbers.length; i++) {
             final int number = numbers[i];
-            final Operator operator = operations[i-1];
+            final Operator operator = operations[i - 1];
             switch (operator) {
-              case PLUS: accumulator += number; break;
-              case MINUS: accumulator -= number; break;
+              case PLUS:     accumulator += number; break;
+              case MINUS:    accumulator -= number; break;
               case MULTIPLY: accumulator *= number; break;
-              case DIVIDE: accumulator /= number; break;
+              case DIVIDE:   accumulator /= number; break;
             }
           }
-
-          if (accumulator == total) {
-            System.out.println(total + " = " + cp);
-            solutions.add(cp);
-          }
+          return accumulator == total;
         }
-      );
+    );
+
+    final List<CalculationPermutation> solutions = new ArrayList<>();
+    allMatches.forEach(solutions::add);
     return solutions;
   }
 

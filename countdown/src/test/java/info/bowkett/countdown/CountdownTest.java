@@ -26,9 +26,12 @@ public class CountdownTest {
 
   @Test
   public void testWithSmallSolutionSet(){
-    final List<CalculationPermutation> solution = countdown.calculate(779, 3, 33, 1,2,7,9);
-    System.out.println("solution.size() = " + solution.size());
+    final int total = 779;
+    final List<CalculationPermutation> solution = countdown.calculate(total, 3, 33, 1,2,7,9);
     assertEquals(5, solution.size());
+    System.out.println("solution.size() = " + solution.size());
+    solution.stream().forEach(cp -> {System.out.println(total + " = " + cp);});
+
   }
 
   @Test
