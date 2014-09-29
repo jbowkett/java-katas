@@ -20,7 +20,7 @@ public class CountdownTest {
 
   @Before
   public void before() throws Exception {
-    countdown = new Countdown(new Calculator());
+    countdown = new Countdown(new Calculator(), new CalculationFactory());
   }
 
   @Test

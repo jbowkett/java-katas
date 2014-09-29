@@ -22,10 +22,10 @@ public class Main {
 
       System.out.println("Looking to make : ["+total+"], using : "+ Arrays.toString(allInputNumbers));
 
-      final List<Calculation> solutions = new Countdown(new Calculator()).
-          calculate(total, allInputNumbers);
+      final Countdown countdown = new Countdown(new Calculator(), new CalculationFactory());
+      final List<Calculation> solutions = countdown.calculate(total, allInputNumbers);
 
-      System.out.println("Found " + solutions.size()+" solutions.");
+      System.out.println("Found " + solutions.size() + " solutions.");
       solutions.stream().forEach(System.out::println);
     }
   }

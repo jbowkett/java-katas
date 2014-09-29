@@ -9,21 +9,23 @@ import java.util.stream.Stream;
  */
 public class Countdown {
   private final Calculator calc;
+  private final CalculationFactory calculationFactory;
 
-  public Countdown(Calculator calc) {
+  public Countdown(Calculator calc, CalculationFactory calculationFactory) {
     this.calc = calc;
+    this.calculationFactory = calculationFactory;
   }
 
   public List<Calculation> calculate(int total, int [] allNumbers) {
 
     final List<NumberPermutation> numberPermutations = getNumberPermutations(allNumbers);
-    final Stream<Calculation> calculationPermutations =
+    final Stream<Calculation> calculations =
         numberPermutations
             .parallelStream()
-            .flatMap(np -> np.getCalculationPermutations().stream());
+            .flatMap(np -> calculationFactory.getCalculationsFor(np).stream());
 
     final Stream<Calculation> allSolutions =
-        calculationPermutations.parallel().filter(
+        calculations.parallel().filter(
             cp -> {
               try{
                 return total == calc.solve(cp);
