@@ -22,7 +22,7 @@ public class Main {
 
       System.out.println("Looking to make : ["+total+"], using : "+ Arrays.toString(allInputNumbers));
 
-      final Countdown countdown = new Countdown(new Calculator(), new CalculationFactory());
+      final Countdown countdown = new Countdown(new Calculator(), new CalculationFactory(), new NumberPermutationFactory());
       final List<Calculation> solutions = countdown.calculate(total, allInputNumbers);
 
       System.out.println("Found " + solutions.size() + " solutions.");
