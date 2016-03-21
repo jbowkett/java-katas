@@ -172,7 +172,7 @@ var reference = web3.eth.contract(contractDefinition).at(contractAddress)
 
 6. Next define the following function in node:
 
-function insertIntoNeo(ownerAddress, buyerAddress, amount){
+`function insertIntoNeo(ownerAddress, buyerAddress, amount){
     var stmts = {
         "statements" : [ 
             { "statement" : `MATCH (owner:Account),(buyer:Account) WHERE owner.address = '${ownerAddress}' AND buyer.address = '${buyerAddress}' CREATE (owner)-[ :SOLD_TO { amount:${amount}, tstamp:timestamp() } ]->(buyer)` }, 
@@ -194,7 +194,7 @@ function insertIntoNeo(ownerAddress, buyerAddress, amount){
     	console.log(data);
     	console.log(response);
     });
-}
+}`
 
 This will use Neo4j's rest api for executing statements against the database.  
 The above code executes 3 statements within the same transaction :
@@ -218,110 +218,7 @@ The above code executes 3 statements within the same transaction :
   
   << Insert screenshot of the Graph gui  >>
     
-
-    
-var issuer = "0x75ab0f992cd2e91a01e63c3e459aa6072ae50adf"
-var alice = "0xb4dddb1511a89c2ad188869fda0b967b8cc1637c"  
-var bob = "0x9f6a733474677e0b08ea7cd655b182b7424f196d" 
-var carol = "0xa2e9af9e1b73bb2c12f8a7868158d940d22d3b31"
-    
-var contractAddress = "0x807bF45B0245d8FA96F68E319116E18a15b07A10"
-var contractCode = "contract ShareClass { string public name; uint8 public decimals; string public symbol; string public isin; string public description; mapping (address => uint256) public balanceOf; event Transfer(address indexed from, address indexed to, uint256 value);  function ShareClass(uint256 initialSupply, string tokenName, string isinId, string desc, uint8 decimalUnits, string tokenSymbol) { balanceOf[msg.sender] = initialSupply; name = tokenName; decimals = decimalUnits; symbol = tokenSymbol; isin = isinId; description = desc; } function transfer(address recipient, uint256 quantity) { ensureSenderHasEnough(quantity); balanceOf[msg.sender] -= quantity; balanceOf[recipient]  += quantity; Transfer(msg.sender, recipient, quantity); } function ensureSenderHasEnough(uint256 quantity) private { if (balanceOf[msg.sender] < quantity) throw; } }"
-var compiledContract;
-web3.eth.compile.solidity(contractCode, function(error, result){compiledContract = result});
-
-var contractDefinition = 
-compiledContract.ShareClass.info.abiDefinition
-var reference = web3.eth.contract(contractDefinition).at(contractAddress)
-    
-var logIt = function(error, result){console.log("Txn : " + error + " " + result.args.from + " => "+result.args.to + " " + result.args.value + " shares"); }
-reference.Transfer().watch(logIt) 
-
-
-var txnRes;
-reference.transfer.sendTransaction(bob, 314, {from: me}, function(error, result){txnRes = result})
-
-  
-  
-Within Neo4j's console:
-CREATE(issuer:Account {name:"Issuer", address:"0x75ab0f992cd2e91a01e63c3e459aa6072ae50adf", remaining_balance:10000000})
-CREATE(alice:Account  {name:"Alice",  address:"0xb4dddb1511a89c2ad188869fda0b967b8cc1637c", remaining_balance:0})
-CREATE(bob:Account    {name:"Bob",    address:"0x9f6a733474677e0b08ea7cd655b182b7424f196d", remaining_balance:0})
-CREATE(carol:Account  {name:"Carol",  address:"0xa2e9af9e1b73bb2c12f8a7868158d940d22d3b31", remaining_balance:0})
-  
-  
-  
-  
-  
-define the insertIntoNeo function in this section
-
-Setting up neo4j
-
-people will be the nodes, and the trades will be the relationships.
-Account node(name, address, remaining balance)
-Sold_to relationship(amount, node destination, timestamp)
-
-
-(Keanu)-[:ACTED_IN {roles:['Neo']}]->(TheMatrix),
-
-
-MATCH (owner:Account),(buyer:Account)
-WHERE owner.address = '0x75ab0f992cd2e91a01e63c3e459aa6072ae50adf' 
-  AND buyer.address = '0xb4dddb1511a89c2ad188869fda0b967b8cc1637c'
-CREATE (owner)-[ :SOLD_TO { amount:5, tstamp:timestamp() } ]->(buyer)
-
-
-var Client = require('node-rest-client').Client
-var client = new Client();
-
-function insertIntoNeo(ownerAddress, buyerAddress, amount){
-    var stmts = {
-        "statements" : [ 
-            { "statement" : `MATCH (owner:Account),(buyer:Account) WHERE owner.address = '${ownerAddress}' AND buyer.address = '${buyerAddress}' CREATE (owner)-[ :SOLD_TO { amount:${amount}, tstamp:timestamp() } ]->(buyer)` }, 
-            { "statement" : `MATCH (owner:Account) WHERE owner.address = '${ownerAddress}' set owner.remaining_balance = owner.remaining_balance - ${amount}`}, 
-            { "statement" : `MATCH (buyer:Account) WHERE buyer.address = '${buyerAddress}' set buyer.remaining_balance = buyer.remaining_balance + ${amount}`} 
-        ]
-    }
-    
-    var args = {
-        data : stmts,
-        headers : 
-        { 
-            "Content-Type": "application/json",
-            "Accept": "application/json; charset=UTF-8"
-        }
-    }
-    
-    client.post("http://localhost:7474/db/data/transaction/commit", args, function (data, response) {
-    	console.log(data);
-    	console.log(response);
-    });
-}
-
-
-
-
-visualisation
- 
-todo:
-
- Ensure events work
-listen to the events on it, and make the rest call into the 
- neo4j server
-
-
- check events are actually working through ethereum-client
- reference.transfer.sendTransaction(bob, 524, {from: me}, function(error, result){txnResult = result})
- 
- then check that neo4j can be written to from within the ethereum-client
- 
- 
- 
- then do some txns
- 
- visualise using the graph and bung in a screenshot
- 
-
+## Further extensions/use cases
 
 This could be further extended and integrated with an identity or KYC service, 
 to provide lookup of who each account holder is, to enable the sending of annual 
