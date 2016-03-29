@@ -1,0 +1,88 @@
+# 1. JDK 8+ (choose an appropriate JDK)
+# 2. Gradle 2+
+# 3. Follow Mache's travis.yml to provision the different messaging and big
+#    data platforms (hint : you’ll need to run some of the scripts in
+#    Mache/config/travis-scripts
+# 4. Download Mache from github
+# 5. Run the Mache build
+# 6. For extra merit, start the REST service and check you can connect to it
+#    and see the rest end point
+---
+- hosts: all
+  tasks:
+    - name: add repo for java 8
+      apt_repository:
+        repo: 'ppa:webupd8team/java'
+        state: present
+        validate_certs: false
+      sudo: yes
+    - name: Add Mongo repository key.
+      command: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+      sudo: yes
+    - name: Add repository - Debian
+      lineinfile: "dest=/etc/apt/sources.list.d/mongodb-org.list create=yes line='deb http://downloads-distro.mongodb.org/repo/debian-sysvinit dist 10gen'"
+      when: ansible_distribution == 'Debian'
+      sudo: yes
+    - name: Add repository - Ubuntu
+      lineinfile: "dest=/etc/apt/sources.list.d/mongodb-org.list create=yes line='deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen'"
+      when: ansible_distribution == 'Ubuntu'
+      sudo: yes
+    - name: add rabbitmq official apt repository
+      apt_repository:
+        repo: 'deb http://www.rabbitmq.com/debian/ testing main'
+        state: present
+      sudo: yes
+    - name: Update apt
+      command: apt-get update
+      sudo: yes
+#    - name: set licence selected
+#      shell: /bin/echo debconf shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
+#      sudo: yes
+#    - name: set licence seen
+#      shell: /bin/echo debconf shared/accepted-oracle-license-v1-1 seen true | /usr/bin/debconf-set-selections
+#      sudo: yes
+    - name: install java 8
+      apt:
+#        name: openjdk-8-jdk
+        name: oracle-java8-installer
+        state: latest
+        update-cache: yes
+        force: yes
+      sudo: yes
+#    - name: Install MongoDB.
+#      command: apt-get install -y mongodb-org
+#    - name: Start MongoDB.
+#      command: service mongod start
+#    - name: Download Gradle {{gradle_version}}
+#      get_url: dest="{{ ansible_cache_dir }}" url=https://services.gradle.org/distributions/{{gradle_zipfile}}
+#      sudo: yes
+#    - name: Extract Gradle
+#      shell: unzip "{{ ansible_cache_dir }}/{{gradle_zipfile}}" -d /usr/local/share/ creates=/usr/local/share/{{gradle_folder}}
+#      sudo: yes
+#    - name: Add Gradle executable symlink to path
+#      shell: ln -s /usr/local/share/{{gradle_folder}}/bin/gradle /usr/local/bin/gradle creates=/usr/local/bin/gradle
+#      sudo: yes
+#    - name: install rabbitmq
+#      apt:
+#        pkg: rabbitmq-server={{rabbitmq_version}}
+#        state: installed
+#        force: yes
+    - name: install git
+      apt:
+        name: git
+        state: latest
+        force: yes
+      sudo: yes
+    - name: Install Mache
+      git:
+        dest: /tmp/mache
+        repo: git@github.com:Excelian/Mache
+        accept_hostkey: true
+    - name: Setup environment
+      command: /tmp/mache/config/travis-scripts/prepare-environment.sh
+    - name: Setup kafka
+      command: /tmp/mache/config/travis-scripts/prepare-kafka.sh
+    - name: Setup Couchbase
+      command: /tmp/mache/config/travis-scripts/prepare-couchbase.sh
+    - name: Setup Cassandra
+      command: /tmp/mache/config/travis-scripts/prepare-cassandra.sh
