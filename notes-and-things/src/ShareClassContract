@@ -1,0 +1,43 @@
+contract ShareClass {
+
+    string public name;
+    uint8 public decimals;
+    string public symbol;
+    string public isin;
+    string public description;
+
+    /* the register of how many shares are owned by which account */
+    mapping (address => uint256) public balanceOf;
+
+    /* Generates an event on the blockchain to notify clients */
+    event Transfer(address indexed from, address indexed to, uint256 value);
+
+    /* Initializes the shareclass for the instrument with initial supply of
+       all equity assigned to the issuer */
+    function ShareClass(uint256 initialSupply,
+                        string tokenName,
+                        string isinId,
+                        string desc,
+                        uint8 decimalUnits,
+                        string tokenSymbol) {
+        balanceOf[msg.sender] = initialSupply;  // Give the creator all equities
+        name = tokenName;                       // Set the name for display purposes
+        decimals = decimalUnits;                // Amount of decimals for display purposes
+        symbol = tokenSymbol;                   // Set the symbol for display purposes
+        isin = isinId;
+        description = desc;
+    }
+
+    function transfer(address recipient, uint256 quantity) {
+        ensureSenderHasEnough(quantity);
+        balanceOf[msg.sender] -= quantity;
+        balanceOf[recipient]  += quantity;
+        // Notify of transfer event:
+        Transfer(msg.sender, recipient, quantity);
+    }
+
+    function ensureSenderHasEnough(uint256 quantity) private {
+        if (balanceOf[msg.sender] < quantity) throw;
+    }
+}
+var contractCode = "contract ShareClass { string public name; uint8 public decimals; string public symbol; string public isin; string public description; mapping (address => uint256) public balanceOf; event Transfer(address indexed from, address indexed to, uint256 value);  function ShareClass(uint256 initialSupply, string tokenName, string isinId, string desc, uint8 decimalUnits, string tokenSymbol) { balanceOf[msg.sender] = initialSupply; name = tokenName; decimals = decimalUnits; symbol = tokenSymbol; isin = isinId; description = desc; } function transfer(address recipient, uint256 quantity) { ensureSenderHasEnough(quantity); balanceOf[msg.sender] -= quantity; balanceOf[recipient]  += quantity; Transfer(msg.sender, recipient, quantity); } function ensureSenderHasEnough(uint256 quantity) private { if (balanceOf[msg.sender] < quantity) throw; } }"

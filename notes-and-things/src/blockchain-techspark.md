@@ -244,4 +244,3 @@ standard).  Looking past the hype, we see the real value in blockchain as a
 complementary technology to some of the more established technologies prevalent 
 in finance today.
 
-
