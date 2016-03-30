@@ -32,12 +32,31 @@ public class PriceFactoryTest {
   @Test
   public void ensureNoTenPricesAreTheSame() {
     final Set<Price> prices = new HashSet<>();
-    for (int i = 0; i < 10; i++) {
+    repeat(10, () -> {
       final Price next = priceFactory.next();
-      System.out.println("next = " + next);
       throwIfPriceIsAlreadyPresent(prices, next);
       prices.add(next);
+    });
+  }
+
+  private void repeat(int max, RepeatedTest t) {
+    for (int i = 0; i < max; i++) {
+      t.performTest();
     }
+  }
+
+  @FunctionalInterface
+  interface RepeatedTest{
+    void performTest();
+  }
+
+  @Test
+  public void ensureWithinSpreadBounds(){
+    repeat(100, () -> {
+      final Price next = priceFactory.next();
+      final double spread = next.ask - next.bid;
+      assertTrue("["+spread+"]", spread <= 0.2d);
+    });
   }
 
   @Before
