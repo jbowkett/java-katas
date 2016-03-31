@@ -17,15 +17,19 @@ public class PricerConfig {
     return configLines.map(line -> {
       final String[] components = line.split(" ");
       throwIfInvalidLine(components);
-      final String isin = components[0];
-      final Double midSeed = Double.parseDouble(components[1]);
-      final Double maxSpread = Double.parseDouble(components[2]);
-      return new PriceFactory(isin, midSeed, maxSpread);
+      return toPriceFactory(components);
     }).collect(Collectors.<PriceFactory>toList());
   }
 
   public List<PriceFactory> getPriceFactories(File f) throws IOException {
     return getPriceFactories(Files.lines(f.toPath()));
+  }
+
+  private PriceFactory toPriceFactory(String[] components) {
+    final String isin = components[0];
+    final Double midSeed = Double.parseDouble(components[1]);
+    final Double maxSpread = Double.parseDouble(components[2]);
+    return new PriceFactory(isin, midSeed, maxSpread);
   }
 
   private void throwIfInvalidLine(String[] components) {
