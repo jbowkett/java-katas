@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -24,23 +25,23 @@ public class PricePublisherTest {
   @Mock
   private PriceSink priceSink;
 
-  @Before
-  public void executeBeforeEachTestMethod(){
-    this.pricePublisher = new PricePublisher(priceSink, firstPriceFactory, secondPriceFactory);
-  }
 
   @Test
-  public void ensurePublishPricesCallsThroughToAllPriceFactories(){
-    pricePublisher.publishPrices();
-    verify(firstPriceFactory).next();
-    verify(secondPriceFactory).next();
+  public void ensurePublishPricesForRandomInstrumentCallsThroughToAllPriceFactoriesAtLeastOnce(){
+    this.pricePublisher = new PricePublisher(priceSink, firstPriceFactory, secondPriceFactory);
+    for (int i = 0; i < 10; i++) {
+      pricePublisher.publishPriceForRandomInstrument();
+    }
+    verify(firstPriceFactory, atLeastOnce()).next();
+    verify(secondPriceFactory, atLeastOnce()).next();
   }
 
   @Test
   public void ensurePricePublisherSendsPriceToSink(){
+    this.pricePublisher = new PricePublisher(priceSink, firstPriceFactory);
     final Price p = new Price("GB012345678", 40.0, 44.0, 42.0);
     when(firstPriceFactory.next()).thenReturn(p);
-    pricePublisher.publishPrices();
+    pricePublisher.publishPriceForRandomInstrument();
     verify(priceSink).addPrice(p);
   }
 }
