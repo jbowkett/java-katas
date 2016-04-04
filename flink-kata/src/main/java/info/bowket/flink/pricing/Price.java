@@ -5,7 +5,7 @@ package info.bowket.flink.pricing;
  * Created by jbowkett on 29/03/2016.
  */
 public class Price {
-  private final String isin;
+  public final String isin;
   public final Double bid;
   public final Double ask;
   public final Double mid;

@@ -5,4 +5,5 @@ package info.bowket.flink.pricing;
  */
 public interface PriceSink {
   void addPrice(Price p);
+  void close();
 }
