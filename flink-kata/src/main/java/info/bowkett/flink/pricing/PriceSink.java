@@ -1,4 +1,4 @@
-package info.bowket.flink.pricing;
+package info.bowkett.flink.pricing;
 
 /**
  * Created by jbowkett on 31/03/2016.

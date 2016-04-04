@@ -1,8 +1,7 @@
-package info.bowket.flink.pricing;
+package info.bowkett.flink.pricing;
 
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

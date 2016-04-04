@@ -1,4 +1,4 @@
-package info.bowket.flink.pricing;
+package info.bowkett.flink.pricing;
 
 import java.util.Properties;
 
@@ -42,7 +42,7 @@ public class KafkaPriceSink implements PriceSink {
     props.put("linger.ms", 1);
     props.put("buffer.memory", 33554432);
     props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-    props.put("value.serializer", "info.bowket.flink.pricing.PriceSerializer");
+    props.put("value.serializer", "info.bowkett.flink.pricing.PriceSerializer");
     return props;
   }
 }

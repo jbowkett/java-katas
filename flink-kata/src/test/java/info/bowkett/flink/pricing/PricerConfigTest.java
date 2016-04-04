@@ -1,4 +1,4 @@
-package info.bowket.flink.pricing;
+package info.bowkett.flink.pricing;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package info.bowket.flink.pricing;
+package info.bowkett.flink.pricing;
 
 import java.util.Random;
 
@@ -18,7 +18,7 @@ public class PricePublisher {
   public void publishPriceForRandomInstrument() {
     final Price price = priceFactories[randomIndex()].next();
     System.out.println("price = " + price);
-//    priceSink.addPrice(price);
+    priceSink.addPrice(price);
   }
 
   private int randomIndex() {
