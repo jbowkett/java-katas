@@ -33,8 +33,6 @@ public class KafkaPriceSink implements PriceSink {
   }
 
 
-
-
   private static Properties defaultKafkaProperties() {
     final Properties props = new Properties();
     props.put("bootstrap.servers", "localhost:9092");
@@ -44,7 +42,7 @@ public class KafkaPriceSink implements PriceSink {
     props.put("linger.ms", 1);
     props.put("buffer.memory", 33554432);
     props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-    props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+    props.put("value.serializer", "info.bowkett.flink.pricing.PriceSerializer");
     return props;
   }
 }
