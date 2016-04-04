@@ -17,7 +17,8 @@ public class PricePublisher {
 
   public void publishPriceForRandomInstrument() {
     final Price price = priceFactories[randomIndex()].next();
-    priceSink.addPrice(price);
+    System.out.println("price = " + price);
+//    priceSink.addPrice(price);
   }
 
   private int randomIndex() {
