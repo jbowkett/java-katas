@@ -7,10 +7,10 @@ import java.util.function.Predicate;
  */
 public class OriginalPriceFilter implements Predicate<Offer> {
 
-  private int lowerBound;
-  private int upperBound;
+  private double lowerBound;
+  private double upperBound;
 
-  public OriginalPriceFilter(int lowerBound, int upperBound) {
+  public OriginalPriceFilter(double lowerBound, double upperBound) {
     this.lowerBound = lowerBound;
     this.upperBound = upperBound;
   }
