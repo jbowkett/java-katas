@@ -52,4 +52,8 @@ public class Offer {
     result = 31 * result + link.hashCode();
     return result;
   }
+
+  public double getDiscount() {
+    return rrp - salePrice;
+  }
 }
