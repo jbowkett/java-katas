@@ -56,4 +56,8 @@ public class Offer {
   public double getDiscount() {
     return rrp - salePrice;
   }
+
+  public double getDiscountPercent() {
+    return getDiscount() / rrp * 100;
+  }
 }
