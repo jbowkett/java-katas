@@ -10,12 +10,12 @@ import java.util.List;
 /**
  * Created by jbowkett on 21/04/2016.
  */
-public class SorterTest {
+public class InDiscountOrderTest {
 
   private List<Offer> offers;
   private Offer largest;
   private Offer smallest;
-  private Sorter sorter;
+  private InDiscountOrder inDiscountOrder;
 
   @Before
   public void setUp(){
@@ -26,18 +26,18 @@ public class SorterTest {
     offers.add(smallest);
     offers.add(middlest);
     offers.add(largest);
-    sorter = new Sorter();
+    inDiscountOrder = new InDiscountOrder();
   }
 
   @Test
   public void ensureSorterFirstItemHasBiggestDiscount(){
-    final List<Offer> sortedList = sorter.sort(offers);
+    final List<Offer> sortedList = inDiscountOrder.sort(offers);
     assertEquals(largest, sortedList.get(0));
   }
 
   @Test
   public void ensureSorterLastItemHasSmallestDiscount(){
-    final List<Offer> sortedList = sorter.sort(offers);
+    final List<Offer> sortedList = inDiscountOrder.sort(offers);
     assertEquals(smallest, sortedList.get(2));
   }
 }
