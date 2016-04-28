@@ -35,7 +35,7 @@ public class OffersPrinterTest {
 
   @Test
   public void ensurePrintedOfferIsEquivalentToInput() throws IOException {
-    final Offer theOffer = new Offer("firstThing", 10.00, 5, "/thing.html", "");
+    final Offer theOffer = new Offer("firstThing", 10.00, 5, "/thing.html", "http://images.asos-media.com/inv/media/1/2/4/5/5635421/black/image1xl.jpg");
     given_theOffers(theOffer);
     when_theOffersArePrinted();
     then_theOffersAreTheSame(theOffer, printedOffers.get(0));
@@ -43,9 +43,10 @@ public class OffersPrinterTest {
 
   private void then_theOffersAreTheSame(Offer expected, PrintedOffers.PrintedOffer printedOffer) {
     assertEquals(expected.description, printedOffer.description);
-    assertEquals(ASOS_COM_LINK_PREFIX + expected.link, printedOffer.link);
+    assertEquals(ASOS_COM_LINK_PREFIX + expected.productLink, printedOffer.productLink);
     assertEquals(expected.rrp, printedOffer.rrp);
     assertEquals(expected.salePrice, printedOffer.salePrice);
+    assertEquals(expected.imgLink, printedOffer.imgLink);
   }
 
   private void given_theOffers(Offer... offers) {
@@ -76,14 +77,16 @@ public class OffersPrinterTest {
     }
 
     private static class PrintedOffer {
-      public String description;
-      public String link;
-      public Double rrp;
-      public Double salePrice;
+      public final String description;
+      public final String productLink;
+      public final Double rrp;
+      public final Double salePrice;
+      public final String imgLink;
 
       public PrintedOffer(Element liElement) {
         description = extractDesc(liElement);
-        link = extractLink(liElement);
+        productLink = extractProductLink(liElement);
+        imgLink = extractImgLink(liElement);
         rrp = extractDouble(liElement, ".rrp");
         salePrice = extractDouble(liElement, ".salePrice");
       }
@@ -100,10 +103,16 @@ public class OffersPrinterTest {
         return description.text();
       }
 
-      private String extractLink(Element liElement) {
-        final Element link = liElement.select(".link").first();
+      private String extractProductLink(Element liElement) {
+        final Element link = liElement.select(".productLink").first();
         if(link == null) return null;
         return link.attr("href");
+      }
+
+      private String extractImgLink(Element liElement) {
+        final Element link = liElement.select(".productImg").first();
+        if(link == null) return null;
+        return link.attr("src");
       }
 
       private String clean(String text) {

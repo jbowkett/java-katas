@@ -36,6 +36,7 @@ public class HTMLOffersPrinter implements OffersPrinter {
     final Element ul = newChildTo(body, "UL");
     for (Offer offer : offers) {
       final Element li = newChildTo(ul, "LI");
+      addImg(offer, li);
       addLink(offer, li);
       final Element priceDesc = addRRP(offer, li);
       addNowPrice(offer, priceDesc);
@@ -56,8 +57,12 @@ public class HTMLOffersPrinter implements OffersPrinter {
     return priceDesc;
   }
 
+  private void addImg(Offer offer, Element li) {
+    newChildTo(li, "img").addClass("productImg").attr("src", offer.imgLink);
+  }
+
   private void addLink(Offer offer, Element li) {
-    final Element link = newChildTo(li, "a").addClass("link").attr("href", prefix + offer.link);
+    final Element link = newChildTo(li, "a").addClass("productLink").attr("href", prefix + offer.productLink);
     newChildTo(link, "span").addClass("description").appendText(offer.description);
   }
 

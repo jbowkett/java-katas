@@ -7,14 +7,14 @@ public class Offer {
   final String description;
   final Double rrp;
   final Double salePrice;
-  final String link;
-  private final String imgLink;
+  final String productLink;
+  final String imgLink;
 
   public Offer(String description, double rrp, double salePrice, String productLink, String imgLink) {
     this.description = description;
     this.rrp = rrp;
     this.salePrice = salePrice;
-    this.link = productLink;
+    this.productLink = productLink;
     this.imgLink = imgLink;
   }
 
@@ -28,7 +28,7 @@ public class Offer {
     return description.equals(offer.description) &&
       rrp.equals(offer.rrp) &&
       salePrice.equals(offer.salePrice) &&
-      link.equals(offer.link) &&
+      productLink.equals(offer.productLink) &&
       imgLink.equals(offer.imgLink);
 
   }
@@ -38,7 +38,7 @@ public class Offer {
     int result = description.hashCode();
     result = 31 * result + rrp.hashCode();
     result = 31 * result + salePrice.hashCode();
-    result = 31 * result + link.hashCode();
+    result = 31 * result + productLink.hashCode();
     result = 31 * result + imgLink.hashCode();
     return result;
   }
@@ -49,7 +49,7 @@ public class Offer {
       "description='" + description + '\'' +
       ", rrp=" + rrp +
       ", salePrice=" + salePrice +
-      ", link='" + link + '\'' +
+      ", productLink='" + productLink + '\'' +
       ", imgLink='" + imgLink + '\'' +
       '}';
   }
