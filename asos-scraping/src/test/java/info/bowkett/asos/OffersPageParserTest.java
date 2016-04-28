@@ -29,7 +29,8 @@ public class OffersPageParserTest {
     final List<Offer> results = parser.parse(inputFile);
     assertEquals(new Offer("Pepe Jeans Linda Abstract Print Oversized Shirt",
       75.00, 45.00,
-      "/Pepe-Jeans/Pepe-Jeans-Linda-Abstract-Print-Oversized-Shirt/Prod/pgeproduct.aspx?iid=5635421&cid=13516&sh=0&pge=0&pgesize=36&sort=-1&clr=Black&totalstyles=1070&gridsize=3"),
+      "/Pepe-Jeans/Pepe-Jeans-Linda-Abstract-Print-Oversized-Shirt/Prod/pgeproduct.aspx?iid=5635421&cid=13516&sh=0&pge=0&pgesize=36&sort=-1&clr=Black&totalstyles=1070&gridsize=3",
+      "http://images.asos-media.com/inv/media/1/2/4/5/5635421/black/image1xl.jpg"),
       results.get(0));
   }
 

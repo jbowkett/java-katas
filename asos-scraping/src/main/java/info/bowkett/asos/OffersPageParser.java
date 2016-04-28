@@ -30,7 +30,13 @@ public class OffersPageParser {
     final Element productLink = findProductLink(categoryImageDiv);
     final String title = productLink.attr("title");
     final String href = productLink.attr("href");
-    return new Offer(title, rrp, salePrice, href);
+    final Element img = findImage(productLink);
+
+    return new Offer(title, rrp, salePrice, href, img.attr("src"));
+  }
+
+  private Element findImage(Element productLink) {
+    return productLink.select("img").get(0);
   }
 
   private double getSalePrice(Elements productPriceDiv) {

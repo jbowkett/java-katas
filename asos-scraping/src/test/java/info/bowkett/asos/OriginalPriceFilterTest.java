@@ -26,7 +26,7 @@ public class OriginalPriceFilterTest {
 
   @Test
   public void ensureFilterRemovesItemsWhereOriginalPriceIsGreaterThanThreshold(){
-    final Offer greaterThanThreshold = new Offer("", 500, 350, "");
+    final Offer greaterThanThreshold = new Offer("", 500, 350, "", "");
     standardOffers.add(greaterThanThreshold);
     final List<Offer> filteredList = applyFilter(rrpIsWithinBounds);
     assertFalse(filteredList.contains(greaterThanThreshold));
@@ -35,7 +35,7 @@ public class OriginalPriceFilterTest {
 
   @Test
   public void ensureFilterRemovesItemsWhereOriginalPriceIsLowerThanThreshold(){
-    final Offer lowerThanThreshold = new Offer("", 1, 1, "");
+    final Offer lowerThanThreshold = new Offer("", 1, 1, "", "");
     standardOffers.add(lowerThanThreshold);
     final List<Offer> filteredList = applyFilter(rrpIsWithinBounds);
     assertFalse(filteredList.contains(lowerThanThreshold));
@@ -51,9 +51,9 @@ public class OriginalPriceFilterTest {
 
   private List<Offer> standardOffers() {
     final List<Offer> standardList = new ArrayList<>();
-    standardList.add(new Offer("", 10, 5, ""));
-    standardList.add(new Offer("", 6, 3, ""));
-    standardList.add(new Offer("", 20, 15, ""));
+    standardList.add(new Offer("", 10, 5, "", ""));
+    standardList.add(new Offer("", 6, 3, "", ""));
+    standardList.add(new Offer("", 20, 15, "", ""));
     return standardList;
   }
 }

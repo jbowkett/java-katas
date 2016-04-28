@@ -25,9 +25,9 @@ public class OffersPrinterTest {
   @Test
   public void ensureAllOffersArePrinted() throws IOException {
     given_theOffers(
-      new Offer("firstThing", 10.00, 5, "/thing.html"),
-      new Offer("secondThing", 100.00, 75.00, "/otherThing.html"),
-      new Offer("ThirdThing", 105.00, 20.00, "/thirdThing.html")
+      new Offer("firstThing", 10.00, 5, "/thing.html", ""),
+      new Offer("secondThing", 100.00, 75.00, "/otherThing.html", ""),
+      new Offer("ThirdThing", 105.00, 20.00, "/thirdThing.html", "")
     );
     when_theOffersArePrinted();
     assertEquals(3, printedOffers.size());
@@ -35,7 +35,7 @@ public class OffersPrinterTest {
 
   @Test
   public void ensurePrintedOfferIsEquivalentToInput() throws IOException {
-    final Offer theOffer = new Offer("firstThing", 10.00, 5, "/thing.html");
+    final Offer theOffer = new Offer("firstThing", 10.00, 5, "/thing.html", "");
     given_theOffers(theOffer);
     when_theOffersArePrinted();
     then_theOffersAreTheSame(theOffer, printedOffers.get(0));

@@ -29,7 +29,7 @@ public class PercentageDiscountThresholdFilterTest {
 
   @Test
   public void ensureFilterRemovesItemsWhereDiscountPercentIsLowerThanThreshold(){
-    final Offer lowerThanThreshold = new Offer("", 100, 82, "");
+    final Offer lowerThanThreshold = new Offer("", 100, 82, "", "");
     standardOffers.add(lowerThanThreshold);
     final List<Offer> filteredList = applyFilter(isAHeftyDiscount);
     assertFalse(filteredList.contains(lowerThanThreshold));
@@ -38,9 +38,9 @@ public class PercentageDiscountThresholdFilterTest {
 
   @Test
   public void ensureMultipleFiltersCanBeApplied(){
-    final Offer lowerThanThresholdDiscount = new Offer("", 100, 82, "");
-    final Offer lowerThanThresholdRRP = new Offer("", 1, 1, "");
-    final Offer greaterThanThresholdRRP = new Offer("", 500, 350, "");
+    final Offer lowerThanThresholdDiscount = new Offer("", 100, 82, "", "");
+    final Offer lowerThanThresholdRRP = new Offer("", 1, 1, "", "");
+    final Offer greaterThanThresholdRRP = new Offer("", 500, 350, "", "");
     standardOffers.add(lowerThanThresholdDiscount);
     standardOffers.add(lowerThanThresholdRRP);
     standardOffers.add(greaterThanThresholdRRP);
@@ -65,9 +65,9 @@ public class PercentageDiscountThresholdFilterTest {
 
   private List<Offer> standardOffers() {
     final List<Offer> standardList = new ArrayList<>();
-    standardList.add(new Offer("", 10, 5, ""));
-    standardList.add(new Offer("", 6, 3, ""));
-    standardList.add(new Offer("", 20, 15, ""));
+    standardList.add(new Offer("", 10, 5, "", ""));
+    standardList.add(new Offer("", 6, 3, "", ""));
+    standardList.add(new Offer("", 20, 15, "", ""));
     return standardList;
   }
 }

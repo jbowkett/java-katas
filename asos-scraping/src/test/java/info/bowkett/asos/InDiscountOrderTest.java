@@ -19,9 +19,9 @@ public class InDiscountOrderTest {
 
   @Before
   public void setUp(){
-    smallest = new Offer("", 100, 99, "");
-    final Offer middlest = new Offer("", 100, 50, "");
-    largest = new Offer("", 100, 10, "");
+    smallest = new Offer("", 100, 99, "", "");
+    final Offer middlest = new Offer("", 100, 50, "", "");
+    largest = new Offer("", 100, 10, "", "");
     offers = new ArrayList<>();
     offers.add(smallest);
     offers.add(middlest);
