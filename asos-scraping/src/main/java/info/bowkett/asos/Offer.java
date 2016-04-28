@@ -5,8 +5,8 @@ package info.bowkett.asos;
  */
 public class Offer {
   final String description;
-  final double rrp;
-  final double salePrice;
+  final Double rrp;
+  final Double salePrice;
   final String link;
 
   public Offer(String description, double rrp, double salePrice, String link) {
