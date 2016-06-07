@@ -6,12 +6,12 @@ import java.util.NoSuchElementException;
 /**
  * Created by jbowkett on 06/06/2016.
  */
-public class BinaryChop {
+public class BinaryChop<T extends Comparable<T>> {
 
-  public int indexOf(Integer[] elements, Integer toFind){
+  public int indexOf(T[] elements, T toFind){
     final int index = elements.length /2;
 
-    final Integer halfway = elements[index];
+    final T halfway = elements[index];
     if(halfway.equals(toFind)){
       return index;
     }
@@ -20,13 +20,13 @@ public class BinaryChop {
       throw new NoSuchElementException();
     }
 
-
-    else if(halfway < toFind){
-      final Integer [] tail = Arrays.copyOfRange(elements, index, elements.length);
+    final boolean halfwayValueIsLessThanSoughtValue = halfway.compareTo(toFind) < 0;
+    if(halfwayValueIsLessThanSoughtValue){
+      final T [] tail = Arrays.copyOfRange(elements, index, elements.length);
       return index + indexOf(tail, toFind);
     }
     else {
-      final Integer [] head = Arrays.copyOfRange(elements, 0, index);
+      final T [] head = Arrays.copyOfRange(elements, 0, index);
       return indexOf(head, toFind);
     }
   }
