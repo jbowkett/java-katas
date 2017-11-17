@@ -12,7 +12,7 @@ public class Grid implements Iterable<Cell>{
 
   public Grid(int size) {
     this(size, new Row[size]);
-    Arrays.setAll(rows, row -> new Row(gridSize, row));
+    Arrays.setAll(rows, row -> new Row(gridSize));
   }
 
   Grid(int size, Row [] rows){
@@ -89,9 +89,9 @@ public class Grid implements Iterable<Cell>{
 
    static class Row{
     private final Cell[] cells;
-    Row(int size, int row) {
+    Row(int size) {
       this(new Cell[size]);
-      Arrays.setAll(cells, column -> new Cell(row, column));
+      Arrays.setAll(cells, column -> new Cell());
     }
     Row(Cell...cells){
       this.cells = cells;
