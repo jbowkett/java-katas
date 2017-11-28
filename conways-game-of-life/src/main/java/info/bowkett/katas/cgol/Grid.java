@@ -14,12 +14,16 @@ public class Grid implements Iterable<Cell>{
 
   public Grid(int size) {
     this(size, new Row[size]);
-    Arrays.setAll(rows, row -> new Row(gridSize));
+    initRows(rows);
   }
 
   Grid(int size, Row [] rows){
     gridSize = size;
     this.rows = rows;
+  }
+
+  private void initRows(Row[] rows) {
+    Arrays.setAll(rows, row -> new Row(gridSize));
   }
 
   @Override
@@ -70,12 +74,12 @@ public class Grid implements Iterable<Cell>{
   }
 
   public void tick() {
-    for (int i = 0; i < rows.length; i++) {
-      Row row = rows[i];
+    for (int rowIndex = 0; rowIndex < rows.length; rowIndex++) {
+      final Row row = rows[rowIndex];
       final Cell[] cells = row.cells;
-      for (int j = 0; j < cells.length; j++) {
-        Cell cell = cells[j];
-        cell.tick(getSurroundingCellsTo(i, j));
+      for (int columnIndex = 0; columnIndex < cells.length; columnIndex++) {
+        final Cell cell = cells[columnIndex];
+        final Cell.State newState = cell.tick(getSurroundingCellsTo(rowIndex, columnIndex));
       }
     }
   }
