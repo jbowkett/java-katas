@@ -13,9 +13,6 @@ public class CgolMain {
   }
 
   public void tick() {
-    for (Cell cell : grid) {
-      final State newState = cell.tick(grid.getSurroundingCellsTo(cell));
-
-    }
+    grid.tick();
   }
 }

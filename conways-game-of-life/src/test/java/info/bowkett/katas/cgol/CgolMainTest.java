@@ -27,35 +27,6 @@ class CgolMainTest {
     when(grid.iterator()).thenReturn(new ArrayList<Cell>().iterator());
     final CgolMain main = new CgolMain(grid);
     main.tick();
-    verify(grid).iterator();
-  }
-  @Test
-  void ensureEachCellIsVisitedWithItsNeighboursOnTick(){
-
-    final List<Cell> cells = List.of(mock(Cell.class, "topLeft"),
-      mock(Cell.class, "topRight"),
-      mock(Cell.class, "bottomRight"),
-      mock(Cell.class, "bottomLeft"));
-
-    final Row [] rows = { new Row(cells.get(0), cells.get(1)),
-                          new Row(cells.get(2), cells.get(3)) };
-    final Grid g = new Grid(2, rows);
-    any(List.class);
-    final CgolMain main = new CgolMain(g);
-    main.tick();
-    assertAll(
-      "Surrounding Cells",
-      () -> verify(cells.get(0)).tick(withThelistInAnyOrder(cells.get(1), cells.get(2), cells.get(3))),
-      () -> verify(cells.get(1)).tick(withThelistInAnyOrder(cells.get(0), cells.get(2), cells.get(3))),
-      () -> verify(cells.get(2)).tick(withThelistInAnyOrder(cells.get(0), cells.get(1), cells.get(3))),
-      () -> verify(cells.get(3)).tick(withThelistInAnyOrder(cells.get(0), cells.get(1), cells.get(2)))
-    );
-  }
-
-  private List<Cell> withThelistInAnyOrder(Cell...expectedCells) {
-    return argThat(argument -> {
-      assertThat(argument, containsInAnyOrder(expectedCells));
-      return true;
-    });
+    verify(grid).tick();
   }
 }

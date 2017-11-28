@@ -1,5 +1,7 @@
 package info.bowkett.katas.cgol;
 
+import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.toList;
 import java.util.*;
 
 /**
@@ -65,13 +67,7 @@ public class Grid implements Iterable<Cell>{
   }
 
   private List<Cell> listFromNonNullElements(Cell... cells) {
-    final List<Cell> toReturn = new ArrayList<>();
-    for (Cell cell : cells) {
-      if(cell != null){
-        toReturn.add(cell);
-      }
-    }
-    return toReturn;
+    return stream(cells).filter(Objects::nonNull).collect(toList());
   }
 
   Coordinate find(Cell cell) {
@@ -87,7 +83,16 @@ public class Grid implements Iterable<Cell>{
     throw new NoSuchElementException("Cannot find cell:["+cell+"]");
   }
 
-   static class Row{
+  public void tick() {
+    for (Row row : rows) {
+      final Cell[] cells = row.cells;
+      for (Cell cell : cells) {
+        cell.tick(getSurroundingCellsTo(cell));
+      }
+    }
+  }
+
+  static class Row{
     private final Cell[] cells;
     Row(int size) {
       this(new Cell[size]);

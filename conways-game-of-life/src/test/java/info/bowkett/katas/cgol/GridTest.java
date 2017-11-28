@@ -1,6 +1,8 @@
 package info.bowkett.katas.cgol;
 
 import info.bowkett.katas.cgol.Grid.Coordinate;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 
 import static info.bowkett.katas.cgol.Cell.State.Dead;
@@ -10,6 +12,10 @@ import static org.hamcrest.collection.IsIterableContainingInAnyOrder
   .containsInAnyOrder;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -114,4 +120,34 @@ public class GridTest {
     final Coordinate coordinate = g.find(cell);
     assertEquals(new Coordinate(50, 50), coordinate);
   }
+
+  @Test
+  void ensureEachCellIsVisitedWithItsNeighboursOnTick(){
+
+    final List<Cell> cells = List.of(mock(Cell.class, "topLeft"),
+      mock(Cell.class, "topRight"),
+      mock(Cell.class, "bottomRight"),
+      mock(Cell.class, "bottomLeft"));
+
+    final Grid.Row[] rows = { new Grid.Row(cells.get(0), cells.get(1)),
+                          new Grid.Row(cells.get(2), cells.get(3)) };
+    final Grid g = new Grid(2, rows);
+    g.tick();
+    assertAll(
+      "Surrounding Cells",
+      () -> verify(cells.get(0)).tick(withThelistInAnyOrder(cells.get(1), cells.get(2), cells.get(3))),
+      () -> verify(cells.get(1)).tick(withThelistInAnyOrder(cells.get(0), cells.get(2), cells.get(3))),
+      () -> verify(cells.get(2)).tick(withThelistInAnyOrder(cells.get(0), cells.get(1), cells.get(3))),
+      () -> verify(cells.get(3)).tick(withThelistInAnyOrder(cells.get(0), cells.get(1), cells.get(2)))
+    );
+  }
+
+  private List<Cell> withThelistInAnyOrder(Cell...expectedCells) {
+    return argThat(argument -> {
+      MatcherAssert.assertThat(argument, Matchers.containsInAnyOrder(expectedCells));
+      return true;
+    });
+  }
+
+
 }
