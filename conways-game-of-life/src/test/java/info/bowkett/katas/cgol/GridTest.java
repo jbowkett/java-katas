@@ -6,7 +6,6 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 
 import static info.bowkett.katas.cgol.Cell.State.Dead;
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder
   .containsInAnyOrder;
@@ -51,7 +50,8 @@ public class GridTest {
     expectedSurroundings.add(g.get(1,0));
     expectedSurroundings.add(g.get(1,1));
     expectedSurroundings.add(g.get(0,1));
-    final List<Cell> actualSurroundings = g.getSurroundingCellsTo(origin);
+    final Coordinate result = new Coordinate(0, 0);
+    final List<Cell> actualSurroundings = g.getSurroundingCellsTo(0,0);
     assertThat(expectedSurroundings, containsInAnyOrder(actualSurroundings.toArray()));
     assertEquals(3, actualSurroundings.size());
   }
@@ -64,7 +64,7 @@ public class GridTest {
     expectedSurroundings.add(g.get(1,0));
     expectedSurroundings.add(g.get(1,1));
     expectedSurroundings.add(g.get(0,1));
-    final List<Cell> actualSurroundings = g.getSurroundingCellsTo(origin);
+    final List<Cell> actualSurroundings = g.getSurroundingCellsTo(0,0);
     assertThat(expectedSurroundings, containsInAnyOrder(actualSurroundings.toArray()));
     assertEquals(3, actualSurroundings.size());
   }
@@ -77,7 +77,7 @@ public class GridTest {
     expectedSurroundings.add(g.get(1,0));
     expectedSurroundings.add(g.get(0,0));
     expectedSurroundings.add(g.get(0,1));
-    final List<Cell> actualSurroundings = g.getSurroundingCellsTo(origin);
+    final List<Cell> actualSurroundings = g.getSurroundingCellsTo(1, 1);
     assertThat(expectedSurroundings, containsInAnyOrder(actualSurroundings.toArray()));
     assertEquals(3, actualSurroundings.size());
   }
@@ -93,7 +93,7 @@ public class GridTest {
     expectedSurroundings.add(g.get(1,6));
     expectedSurroundings.add(g.get(1,6));
     expectedSurroundings.add(g.get(0,6));
-    final List<Cell> actualSurroundings = g.getSurroundingCellsTo(origin);
+    final List<Cell> actualSurroundings = g.getSurroundingCellsTo(0, 5);
     assertEquals(5, actualSurroundings.size());
   }
   @Test
@@ -110,16 +110,10 @@ public class GridTest {
     expectedSurroundings.add(g.get(6,5));
     expectedSurroundings.add(g.get(6,4));
     expectedSurroundings.add(g.get(5,4));
-    final List<Cell> actualSurroundings = g.getSurroundingCellsTo(origin);
+    final List<Cell> actualSurroundings = g.getSurroundingCellsTo(5, 5);
     assertEquals(8, actualSurroundings.size());
   }
-  @Test
-  void ensureFindRetrievesTheSameCell(){
-    final Grid g = new Grid(100);
-    final Cell cell = g.get(50, 50);
-    final Coordinate coordinate = g.find(cell);
-    assertEquals(new Coordinate(50, 50), coordinate);
-  }
+
 
   @Test
   void ensureEachCellIsVisitedWithItsNeighboursOnTick(){

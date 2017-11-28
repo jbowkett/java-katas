@@ -51,16 +51,15 @@ public class Grid implements Iterable<Cell>{
     return rows[row].cellAt(column);
   }
 
-  public List<Cell> getSurroundingCellsTo(Cell cell) {
-    final Coordinate result = find(cell);
-    final Cell topLeft     = get(result.row - 1, result.column - 1);
-    final Cell top         = get(result.row - 1, result.column + 0);
-    final Cell topRight    = get(result.row - 1, result.column + 1);
-    final Cell right       = get(result.row + 0, result.column + 1);
-    final Cell bottomRight = get(result.row + 1, result.column + 1);
-    final Cell bottom      = get(result.row + 1, result.column + 0);
-    final Cell bottomLeft  = get(result.row + 1, result.column - 1);
-    final Cell left        = get(result.row + 0, result.column - 1);
+  List<Cell> getSurroundingCellsTo(int row, int column) {
+    final Cell topLeft     = get(row - 1, column - 1);
+    final Cell top         = get(row - 1, column + 0);
+    final Cell topRight    = get(row - 1, column + 1);
+    final Cell right       = get(row + 0, column + 1);
+    final Cell bottomRight = get(row + 1, column + 1);
+    final Cell bottom      = get(row + 1, column + 0);
+    final Cell bottomLeft  = get(row + 1, column - 1);
+    final Cell left        = get(row + 0, column - 1);
 
     return listFromNonNullElements(left, bottomLeft, bottom, bottomRight,
       right, topRight, top, topLeft);
@@ -70,24 +69,13 @@ public class Grid implements Iterable<Cell>{
     return stream(cells).filter(Objects::nonNull).collect(toList());
   }
 
-  Coordinate find(Cell cell) {
-    for (int rowIndex = 0; rowIndex < rows.length; rowIndex++) {
-      Row row = rows[rowIndex];
-      for (int columnIndex = 0; columnIndex < row.cells.length; columnIndex++) {
-        final Cell cellInGrid = row.cells[columnIndex];
-        if(cell.equals(cellInGrid)){
-          return new Coordinate(rowIndex, columnIndex);
-        }
-      }
-    }
-    throw new NoSuchElementException("Cannot find cell:["+cell+"]");
-  }
-
   public void tick() {
-    for (Row row : rows) {
+    for (int i = 0; i < rows.length; i++) {
+      Row row = rows[i];
       final Cell[] cells = row.cells;
-      for (Cell cell : cells) {
-        cell.tick(getSurroundingCellsTo(cell));
+      for (int j = 0; j < cells.length; j++) {
+        Cell cell = cells[j];
+        cell.tick(getSurroundingCellsTo(i, j));
       }
     }
   }
