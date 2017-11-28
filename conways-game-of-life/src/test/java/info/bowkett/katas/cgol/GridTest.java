@@ -1,6 +1,5 @@
 package info.bowkett.katas.cgol;
 
-import info.bowkett.katas.cgol.Grid.Coordinate;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -50,7 +49,6 @@ public class GridTest {
     expectedSurroundings.add(g.get(1,0));
     expectedSurroundings.add(g.get(1,1));
     expectedSurroundings.add(g.get(0,1));
-    final Coordinate result = new Coordinate(0, 0);
     final List<Cell> actualSurroundings = g.getSurroundingCellsTo(0,0);
     assertThat(expectedSurroundings, containsInAnyOrder(actualSurroundings.toArray()));
     assertEquals(3, actualSurroundings.size());
