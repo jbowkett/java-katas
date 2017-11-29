@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static info.bowkett.katas.cgol.Cell.State.Dead;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder
   .containsInAnyOrder;
 import static org.junit.Assert.assertEquals;
@@ -44,7 +45,6 @@ public class GridTest {
   void ensureGetSurroundingCellsReturnsTheCorrectCellsOnOrigin(){
     final int gridSize = 10;
     final Grid g = new Grid(gridSize);
-    final Cell origin = g.get(0, 0);
     final List<Cell> expectedSurroundings = new ArrayList<>();
     expectedSurroundings.add(g.get(1,0));
     expectedSurroundings.add(g.get(1,1));
@@ -57,7 +57,6 @@ public class GridTest {
   void ensureGetSurroundingCellsReturnsTheCorrectCellsOnFourByFourGridForOrigin(){
     final int gridSize = 2;
     final Grid g = new Grid(gridSize);
-    final Cell origin = g.get(0, 0);
     final List<Cell> expectedSurroundings = new ArrayList<>();
     expectedSurroundings.add(g.get(1,0));
     expectedSurroundings.add(g.get(1,1));
@@ -70,7 +69,6 @@ public class GridTest {
   void ensureGetSurroundingCellsReturnsTheCorrectCellsOnFourByFourGridForOtherSquare(){
     final int gridSize = 2;
     final Grid g = new Grid(gridSize);
-    final Cell origin = g.get(1, 1);
     final List<Cell> expectedSurroundings = new ArrayList<>();
     expectedSurroundings.add(g.get(1,0));
     expectedSurroundings.add(g.get(0,0));
@@ -84,7 +82,6 @@ public class GridTest {
   void ensureGetSurroundingCellsReturnsTheCorrectCellsAtEdge(){
     final int gridSize = 10;
     final Grid g = new Grid(gridSize);
-    final Cell origin = g.get(0, 5);
     final List<Cell> expectedSurroundings = new ArrayList<>();
     expectedSurroundings.add(g.get(0,5));
     expectedSurroundings.add(g.get(1,5));
@@ -98,7 +95,6 @@ public class GridTest {
   void ensureGetSurroundingCellsReturnsTheCorrectCellsInCentre(){
     final int gridSize = 10;
     final Grid g = new Grid(gridSize);
-    final Cell origin = g.get(5, 5);
     final List<Cell> expectedSurroundings = new ArrayList<>();
     expectedSurroundings.add(g.get(4,4));
     expectedSurroundings.add(g.get(4,5));
@@ -110,6 +106,31 @@ public class GridTest {
     expectedSurroundings.add(g.get(5,4));
     final List<Cell> actualSurroundings = g.getSurroundingCellsTo(5, 5);
     assertEquals(8, actualSurroundings.size());
+  }
+
+  @Test
+  void ensureTickCreatesNewCells(){
+    final Grid g = new Grid(2);
+    final Set<Cell> cellsBeforeTick = collectCells(g);
+    g.tick();
+    final Set<Cell> cellsAfterTick = collectCells(g);
+    assertThatSetsAreEntirelyDisjunct(cellsBeforeTick, cellsAfterTick);
+  }
+
+  private void assertThatSetsAreEntirelyDisjunct(Set<Cell> cellsBeforeTick, Set<Cell> cellsAfterTick) {
+    assertAll(
+      () -> assertThat(cellsBeforeTick, not(containsInAnyOrder(cellsAfterTick.toArray()))),
+      () -> assertThat(cellsAfterTick, not(containsInAnyOrder(cellsBeforeTick.toArray())))
+    );
+
+  }
+
+  private Set<Cell> collectCells(Grid g) {
+    final Set<Cell> cells = new HashSet<>();
+    for (Cell cell : g) {
+      cells.add(cell);
+    }
+    return cells;
   }
 
 
@@ -140,6 +161,4 @@ public class GridTest {
       return true;
     });
   }
-
-
 }

@@ -9,7 +9,7 @@ import java.util.*;
  */
 public class Grid implements Iterable<Cell>{
 
-  private final Row[] rows;
+  private Row[] rows;
   private final int gridSize;
 
   public Grid(int size) {
@@ -74,14 +74,19 @@ public class Grid implements Iterable<Cell>{
   }
 
   public void tick() {
+    final Row [] newRows = new Row[gridSize];
+    initRows(newRows);
+
     for (int rowIndex = 0; rowIndex < rows.length; rowIndex++) {
       final Row row = rows[rowIndex];
       final Cell[] cells = row.cells;
       for (int columnIndex = 0; columnIndex < cells.length; columnIndex++) {
         final Cell cell = cells[columnIndex];
         final Cell.State newState = cell.tick(getSurroundingCellsTo(rowIndex, columnIndex));
+        newRows[rowIndex].cellAt(columnIndex).state = newState;
       }
     }
+    this.rows = newRows;
   }
 
   static class Row{
