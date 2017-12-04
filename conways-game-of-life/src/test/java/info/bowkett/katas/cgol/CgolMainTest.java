@@ -21,12 +21,21 @@ class CgolMainTest {
 
   @Mock
   private final Grid grid = mock(Grid.class);
+  @Mock
+  private final GridPrinter printer = mock(GridPrinter.class);
 
   @Test
   void ensureTheGridIsIteratedOnTick(){
     when(grid.iterator()).thenReturn(new ArrayList<Cell>().iterator());
-    final CgolMain main = new CgolMain(grid);
+    final CgolMain main = new CgolMain(grid, printer);
     main.tick();
     verify(grid).tick();
+  }
+
+  @Test
+  void ensureGridIsPrintedOnTick(){
+    final CgolMain main = new CgolMain(grid, printer);
+    main.tick();
+    verify(printer).print(grid);
   }
 }

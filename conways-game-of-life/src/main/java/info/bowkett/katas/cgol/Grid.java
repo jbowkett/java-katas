@@ -15,11 +15,25 @@ public class Grid implements Iterable<Cell>{
   public Grid(int size) {
     this(size, new Row[size]);
     initRows(rows);
+    initStates();
+  }
+
+  private void initStates() {
+    final Random random = new Random();
+    for (Row row : rows) {
+      final Cell[] cells = row.cells;
+      for (Cell cell : cells) {
+        if(random.nextBoolean()){
+          cell.state = Cell.State.Alive;
+        }
+      }
+    }
   }
 
   Grid(int size, Row [] rows){
     gridSize = size;
     this.rows = rows;
+
   }
 
   private void initRows(Row[] rows) {
@@ -87,6 +101,10 @@ public class Grid implements Iterable<Cell>{
       }
     }
     this.rows = newRows;
+  }
+
+  int getSize() {
+    return gridSize;
   }
 
   static class Row{

@@ -30,7 +30,15 @@ public class Cell {
     return null;
   }
 
-  public enum State {Dead, Alive}
+  public enum State {
+    Dead(". "), Alive("X ");
+
+    public final String toString;
+
+    State(String toString) {
+      this.toString = toString;
+    }
+  }
 
   public State state = Dead;
 
