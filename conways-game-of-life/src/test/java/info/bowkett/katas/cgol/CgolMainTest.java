@@ -1,16 +1,11 @@
 package info.bowkett.katas.cgol;
 
-import info.bowkett.katas.cgol.Grid.Row;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.Mockito.*;
 import java.util.ArrayList;
-import java.util.List;
 
 
 /**

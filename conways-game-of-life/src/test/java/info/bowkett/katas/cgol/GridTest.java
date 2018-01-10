@@ -123,7 +123,6 @@ public class GridTest {
       () -> assertThat(cellsBeforeTick, not(containsInAnyOrder(cellsAfterTick.toArray()))),
       () -> assertThat(cellsAfterTick, not(containsInAnyOrder(cellsBeforeTick.toArray())))
     );
-
   }
 
   private Set<Cell> collectCells(Grid g) {
