@@ -3,6 +3,9 @@ package info.bowkett.katas.cgol;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toList;
 import java.util.*;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by jbowkett on 07/11/2017.
@@ -11,9 +14,10 @@ public class Grid implements Iterable<Cell>{
 
   private Row[] rows;
   private final int gridSize;
+  private ExecutorService executorService;
 
-  public Grid(int size) {
-    this(size, new Row[size]);
+  public Grid(int size, ExecutorService executorService) {
+    this(size, new Row[size], executorService);
     initRows(rows);
     initStates();
   }
@@ -30,10 +34,10 @@ public class Grid implements Iterable<Cell>{
     }
   }
 
-  Grid(int size, Row [] rows){
+  Grid(int size, Row[] rows, ExecutorService executorService){
     gridSize = size;
     this.rows = rows;
-
+    this.executorService = executorService;
   }
 
   private void initRows(Row[] rows) {
@@ -91,16 +95,34 @@ public class Grid implements Iterable<Cell>{
     final Row [] newRows = new Row[gridSize];
     initRows(newRows);
 
+    final CountDownLatch rowsStillProcessing = new CountDownLatch(rows.length);
     for (int rowIndex = 0; rowIndex < rows.length; rowIndex++) {
-      final Row row = rows[rowIndex];
-      final Cell[] cells = row.cells;
-      for (int columnIndex = 0; columnIndex < cells.length; columnIndex++) {
-        final Cell cell = cells[columnIndex];
-        final Cell.State newState = cell.tick(getSurroundingCellsTo(rowIndex, columnIndex));
-        newRows[rowIndex].cellAt(columnIndex).state = newState;
-      }
+      tickRowAsync(newRows[rowIndex], rowsStillProcessing, rowIndex);
     }
+    await(rowsStillProcessing);
     this.rows = newRows;
+  }
+  final AtomicInteger calcCount = new AtomicInteger(0);
+  private void tickRowAsync(Row newRow, CountDownLatch rowsStillProcessing, int rowIndex) {
+    executorService.execute(() -> {
+      final Row existingRow = rows[rowIndex];
+      final Cell[] existingCells = existingRow.cells;
+      for (int columnIndex = 0; columnIndex < existingCells.length; columnIndex++) {
+        final Cell cell = existingCells[columnIndex];
+        final Cell.State newState = cell.tick(getSurroundingCellsTo(rowIndex, columnIndex));
+        newRow.cellAt(columnIndex).state = newState;
+        calcCount.incrementAndGet();
+      }
+      rowsStillProcessing.countDown();
+    });
+  }
+
+  private void await(CountDownLatch latch) {
+    try {
+      latch.await();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
   }
 
   int getSize() {

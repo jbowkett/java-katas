@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Executors;
 
 /**
  * Created by jbowkett on 08/11/2017.
@@ -28,7 +29,7 @@ public class GridTest {
   @Test
   void ensureAllElementsOfAGridAreIterated(){
     final int gridSize = 2;
-    final Grid g = new Grid(gridSize);
+    final Grid g = new Grid(gridSize, Executors.newFixedThreadPool(gridSize));
     final Set<Cell> iteratedCells = new HashSet<>();
     for (Cell cell : g) {
       iteratedCells.add(cell);
@@ -38,13 +39,13 @@ public class GridTest {
   @Test
   void ensureCanGetTheStateOfACell(){
     final int gridSize = 10;
-    final Grid g = new Grid(gridSize);
+    final Grid g = new Grid(gridSize, Executors.newFixedThreadPool(gridSize));
     assertThat(g.get(0,0).state, equalTo(Dead));
   }
   @Test
   void ensureGetSurroundingCellsReturnsTheCorrectCellsOnOrigin(){
     final int gridSize = 10;
-    final Grid g = new Grid(gridSize);
+    final Grid g = new Grid(gridSize, Executors.newFixedThreadPool(gridSize));
     final List<Cell> expectedSurroundings = new ArrayList<>();
     expectedSurroundings.add(g.get(1,0));
     expectedSurroundings.add(g.get(1,1));
@@ -56,7 +57,7 @@ public class GridTest {
   @Test
   void ensureGetSurroundingCellsReturnsTheCorrectCellsOnFourByFourGridForOrigin(){
     final int gridSize = 2;
-    final Grid g = new Grid(gridSize);
+    final Grid g = new Grid(gridSize, Executors.newFixedThreadPool(gridSize));
     final List<Cell> expectedSurroundings = new ArrayList<>();
     expectedSurroundings.add(g.get(1,0));
     expectedSurroundings.add(g.get(1,1));
@@ -68,7 +69,7 @@ public class GridTest {
   @Test
   void ensureGetSurroundingCellsReturnsTheCorrectCellsOnFourByFourGridForOtherSquare(){
     final int gridSize = 2;
-    final Grid g = new Grid(gridSize);
+    final Grid g = new Grid(gridSize, Executors.newFixedThreadPool(gridSize));
     final List<Cell> expectedSurroundings = new ArrayList<>();
     expectedSurroundings.add(g.get(1,0));
     expectedSurroundings.add(g.get(0,0));
@@ -81,7 +82,7 @@ public class GridTest {
   @Test
   void ensureGetSurroundingCellsReturnsTheCorrectCellsAtEdge(){
     final int gridSize = 10;
-    final Grid g = new Grid(gridSize);
+    final Grid g = new Grid(gridSize, Executors.newFixedThreadPool(gridSize));
     final List<Cell> expectedSurroundings = new ArrayList<>();
     expectedSurroundings.add(g.get(0,5));
     expectedSurroundings.add(g.get(1,5));
@@ -94,7 +95,7 @@ public class GridTest {
   @Test
   void ensureGetSurroundingCellsReturnsTheCorrectCellsInCentre(){
     final int gridSize = 10;
-    final Grid g = new Grid(gridSize);
+    final Grid g = new Grid(gridSize, Executors.newFixedThreadPool(gridSize));
     final List<Cell> expectedSurroundings = new ArrayList<>();
     expectedSurroundings.add(g.get(4,4));
     expectedSurroundings.add(g.get(4,5));
@@ -110,7 +111,7 @@ public class GridTest {
 
   @Test
   void ensureTickCreatesNewCells(){
-    final Grid g = new Grid(2);
+    final Grid g = new Grid(2, Executors.newFixedThreadPool(2));
     final Set<Cell> cellsBeforeTick = collectCells(g);
     g.tick();
     final Set<Cell> cellsAfterTick = collectCells(g);
@@ -133,6 +134,18 @@ public class GridTest {
     return cells;
   }
 
+  @Test
+  void ensureAllCalculationsArePerformed(){
+    final int gridSize = 10;
+    final Grid g = new Grid(gridSize, Executors.newFixedThreadPool(gridSize));
+    final int maxTicks = 10_000;
+    for (int i = 0; i < maxTicks; i++) {
+      g.tick();
+    }
+    final int calcCount = g.calcCount.get();
+    assertEquals(gridSize * gridSize * maxTicks, calcCount);
+  }
+
 
   @Test
   void ensureEachCellIsVisitedWithItsNeighboursOnTick(){
@@ -144,7 +157,7 @@ public class GridTest {
 
     final Grid.Row[] rows = { new Grid.Row(cells.get(0), cells.get(1)),
                           new Grid.Row(cells.get(2), cells.get(3)) };
-    final Grid g = new Grid(2, rows);
+    final Grid g = new Grid(2, rows, Executors.newFixedThreadPool(1));
     g.tick();
     assertAll(
       "Surrounding Cells",
