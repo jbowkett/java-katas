@@ -3,7 +3,7 @@
 java-katas
 ==========
 
-Java Katas taken from [CodeKata][]
+Many Java Katas taken from [CodeKata][]
 
  * Asos Scraping - Scrape the daily deals site on Asos for the best savings and
  present a report
