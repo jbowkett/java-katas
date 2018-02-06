@@ -1,6 +1,6 @@
 package info.bowkett.ticking;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.BufferedWriter;
@@ -23,16 +23,32 @@ public class PricerConfigTest {
     assertEquals(2, priceFactories.size());
   }
 
-//  @Test(expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void ensureInvalidConfigLinesThrowAnException(){
     final String [] configLines = new String [] {"GB124345678 222", "GB87654321 44 0.2"};
     final PricerConfig config = new PricerConfig();
-    final List<PriceFactory> priceFactories = config.getPriceFactories(Arrays.stream(configLines));
+    final List<PriceFactory> ignoredDueToException = config.getPriceFactories(Arrays.stream(configLines));
   }
 
 
   @Test
-  public void ensureConfigCanBeReadFromAFile() throws IOException {
+  public void ensureConfigCanBeReadFromAFileCreatedInTest() throws IOException {
+    final File f = createFileOfPriceFactories();
+    final PricerConfig config = new PricerConfig();
+    final List<PriceFactory> priceFactories = config.getPriceFactories(f);
+    assertEquals(2, priceFactories.size());
+  }
+
+  @Test
+  public void ensureConfigCanBeReadFromAFileOnDisk() throws IOException {
+    final File f = new File("/Users/jbowkett/Coding/java-katas/ticking-source/src/test/resources/isins-config.txt");
+    final PricerConfig config = new PricerConfig();
+    final List<PriceFactory> priceFactories = config.getPriceFactories(f);
+    assertEquals(3, priceFactories.size());
+  }
+
+
+  private File createFileOfPriceFactories() throws IOException {
     final File f = File.createTempFile("pricing-factory-", ".config");
     f.deleteOnExit();
     final String [] configLines = new String [] {"GB124345678 22 2", "GB87654321 44 0.2"};
@@ -42,8 +58,6 @@ public class PricerConfigTest {
         bw.append(configLine).append('\n');
       }
     }
-    final PricerConfig config = new PricerConfig();
-    final List<PriceFactory> priceFactories = config.getPriceFactories(f);
-    assertEquals(2, priceFactories.size());
+    return f;
   }
 }
