@@ -1,0 +1,8 @@
+include ':asos-scraping',
+        ':conflation',
+        ':conways-game-of-life',
+        ':countdown',
+        ':fizz-buzz',
+        ':flink-kata',
+        ':ticking-source'
+
