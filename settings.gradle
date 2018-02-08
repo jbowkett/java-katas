@@ -4,5 +4,6 @@ include ':asos-scraping',
         ':countdown',
         ':fizz-buzz',
         ':flink-kata',
+        ':Kata02-Binary-Chop',
         ':ticking-source'
 
