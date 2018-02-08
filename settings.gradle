@@ -6,5 +6,6 @@ include ':asos-scraping',
         ':flink-kata',
         ':Kata02-Binary-Chop',
         ':Kata04-Data-Munging',
+        ':Kata05-Bloom-Filters',
         ':ticking-source'
 
