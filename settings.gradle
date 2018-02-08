@@ -7,5 +7,6 @@ include ':asos-scraping',
         ':Kata02-Binary-Chop',
         ':Kata04-Data-Munging',
         ':Kata05-Bloom-Filters',
+        ':Kata06-Anagrams',
         ':ticking-source'
 

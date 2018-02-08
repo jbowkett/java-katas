@@ -3,10 +3,7 @@ package info.bowkett.katas.anagrams;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Stream;
@@ -42,7 +39,8 @@ public class AnagramListTest {
 
   @Test
   public void testInputFile() throws FileNotFoundException {
-    final FileReader inputFile = new FileReader("Kata06-Anagrams/input-data/wordlist.txt");
+    final File fileName = new File("input-data/wordlist.txt");
+    final FileReader inputFile = new FileReader(fileName);
     final BufferedReader reader = new BufferedReader(inputFile);
     final Collection<AnagramList> anagramsInFile = AnagramList.anagramsIn(reader.lines());
 //    anagramsInFile.forEach(anagramList -> System.out.println(anagramList.toString()));
