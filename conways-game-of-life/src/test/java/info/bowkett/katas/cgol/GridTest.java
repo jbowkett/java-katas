@@ -5,6 +5,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 
 import static info.bowkett.katas.cgol.Cell.State.Dead;
+import static info.bowkett.katas.cgol.Grid.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder
@@ -38,8 +39,13 @@ public class GridTest {
   }
   @Test
   void ensureCanGetTheStateOfACell(){
-    final int gridSize = 10;
-    final Grid g = new Grid(gridSize, Executors.newFixedThreadPool(gridSize));
+    final int gridSize = 1;
+    final Row[] rows = new Row[]
+      {
+        new Row(new Cell())
+      };
+    final Grid g = new Grid(gridSize, rows, Executors.newFixedThreadPool
+      (gridSize));
     assertThat(g.get(0,0).state, equalTo(Dead));
   }
   @Test
@@ -154,8 +160,8 @@ public class GridTest {
       mock(Cell.class, "bottomRight"),
       mock(Cell.class, "bottomLeft"));
 
-    final Grid.Row[] rows = { new Grid.Row(cells.get(0), cells.get(1)),
-                          new Grid.Row(cells.get(2), cells.get(3)) };
+    final Row[] rows = { new Row(cells.get(0), cells.get(1)),
+                          new Row(cells.get(2), cells.get(3)) };
     final Grid g = new Grid(2, rows, Executors.newFixedThreadPool(1));
     g.tick();
     assertAll(
