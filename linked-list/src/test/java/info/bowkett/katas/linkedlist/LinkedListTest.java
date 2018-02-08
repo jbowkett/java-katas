@@ -35,7 +35,4 @@ public class LinkedListTest {
     list.add(secondValue);
     assertEquals(secondValue, list.get(1));
   }
-
-
-
 }

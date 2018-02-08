@@ -9,5 +9,6 @@ include ':asos-scraping',
         ':Kata05-Bloom-Filters',
         ':Kata06-Anagrams',
         ':Kata08-conflicting-objectives',
+        ':linked-list',
         ':ticking-source'
 
