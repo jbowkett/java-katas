@@ -18,7 +18,8 @@ public class LimitedAnagramListTest {
   @Test
   public void testSomething() throws FileNotFoundException {
     final LimitedAnagramList lal = new LimitedAnagramList(6);
-    final FileReader inputFile = new FileReader("/Users/jbowkett/other/java-katas/Kata06-Anagrams/input-data/wordlist.txt");
+    final FileReader inputFile = new FileReader("" +
+      "../Kata06-Anagrams/input-data/wordlist.txt");
     final BufferedReader reader = new BufferedReader(inputFile);
     lal.readIn(reader.lines());
   }

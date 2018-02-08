@@ -8,5 +8,6 @@ include ':asos-scraping',
         ':Kata04-Data-Munging',
         ':Kata05-Bloom-Filters',
         ':Kata06-Anagrams',
+        ':Kata08-conflicting-objectives',
         ':ticking-source'
 
