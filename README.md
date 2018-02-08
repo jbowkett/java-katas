@@ -6,7 +6,12 @@ java-katas
 Many Java Katas taken from [CodeKata][]
 
  * Asos Scraping - Scrape the daily deals site on Asos for the best savings and
- present a report
+   present a report
+ * Conflation - A multithreaded data sink that allows slower consumers to
+   specify how they want to retrieve their next element.  Useful when you have a
+   fast-ticking source and a slow consumer, avoiding backpressure on the Sink
+   because the consumer can specify they want oldest, youngest or select some
+   property of the set
  * Conways Game of Life - a multithreaded implementation of Conways Game of Life
  * Countdown - Solves Countdown maths puzzles, using brute force to calculate
    all permutations of numbers and operators, then evaluating left-to-right to
