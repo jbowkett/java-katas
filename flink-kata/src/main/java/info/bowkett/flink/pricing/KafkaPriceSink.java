@@ -3,6 +3,7 @@ package info.bowkett.flink.pricing;
 import java.util.Properties;
 
 import info.bowkett.ticking.Price;
+import info.bowkett.ticking.PriceSink;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;

@@ -1,6 +1,7 @@
 package info.bowkett.flink.pricing;
 
 import info.bowkett.ticking.PriceFactory;
+import info.bowkett.ticking.PricePublisher;
 import info.bowkett.ticking.PricerConfig;
 
 import java.io.File;

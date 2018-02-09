@@ -1,4 +1,4 @@
-package info.bowkett.flink.pricing;
+package info.bowkett.ticking;
 
 import info.bowkett.ticking.Price;
 
