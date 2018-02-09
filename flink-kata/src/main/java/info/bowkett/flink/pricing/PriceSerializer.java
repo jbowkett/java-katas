@@ -1,5 +1,6 @@
 package info.bowkett.flink.pricing;
 
+import info.bowkett.ticking.Price;
 import org.apache.kafka.common.serialization.Serializer;
 
 import java.util.Map;

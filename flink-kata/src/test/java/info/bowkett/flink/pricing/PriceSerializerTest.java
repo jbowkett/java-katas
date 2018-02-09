@@ -1,5 +1,6 @@
 package info.bowkett.flink.pricing;
 
+import info.bowkett.ticking.Price;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;

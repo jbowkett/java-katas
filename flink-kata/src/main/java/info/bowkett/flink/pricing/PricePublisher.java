@@ -1,5 +1,8 @@
 package info.bowkett.flink.pricing;
 
+import info.bowkett.ticking.Price;
+import info.bowkett.ticking.PriceFactory;
+
 import java.util.Random;
 
 /**

@@ -1,5 +1,7 @@
 package info.bowkett.flink.pricing;
 
+import info.bowkett.ticking.Price;
+import info.bowkett.ticking.PriceFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;

@@ -86,3 +86,9 @@ project(':conflation'){
   }
 }
 
+project(':flink-kata'){
+  dependencies {
+    compile project(":ticking-source")
+  }
+}
+

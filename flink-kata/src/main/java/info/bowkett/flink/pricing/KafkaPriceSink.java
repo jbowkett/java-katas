@@ -2,6 +2,7 @@ package info.bowkett.flink.pricing;
 
 import java.util.Properties;
 
+import info.bowkett.ticking.Price;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
