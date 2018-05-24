@@ -10,5 +10,6 @@ include ':asos-scraping',
         ':Kata06-Anagrams',
         ':Kata08-conflicting-objectives',
         ':linked-list',
+        ':log-analysis',
         ':ticking-source'
 
