@@ -20,12 +20,12 @@ public class Price {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
 
-    Price price = (Price) o;
+    Price other = (Price) o;
 
-    return isin.equals(price.isin) &&
-      bid.equals(price.bid) &&
-      ask.equals(price.ask) &&
-      mid.equals(price.mid);
+    return isin.equals(other.isin) &&
+      Double.compare(bid, other.bid) == 0 &&
+      Double.compare(ask, other.ask) == 0 &&
+      Double.compare(mid, other.mid) == 0;
 
   }
 

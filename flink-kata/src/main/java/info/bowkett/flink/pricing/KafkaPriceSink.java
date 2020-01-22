@@ -24,7 +24,7 @@ public class KafkaPriceSink implements PriceSink {
   }
 
   @Override
-  public void addPrice(Price p)  {
+  public void add(Price p)  {
     producer.send(new ProducerRecord<>("prices", p));
   }
 

@@ -27,7 +27,7 @@ public class KafkaPriceSinkTest {
   @Test
   public void ensureKafkaSinkCallsSendOnProducerOnAddPrice() throws InterruptedException {
     final Price p = new Price("GB12345678", 0.25, 0.75, 0.5);
-    kafka.addPrice(p);
+    kafka.add(p);
     verify(producer).send(new ProducerRecord<>("prices", p));
   }
 

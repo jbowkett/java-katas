@@ -43,3 +43,8 @@ public class ExtractionTest {
     this.extractor = new Extraction(pattern);
   }
 }
+//update the log expression
+//grep the logs for the messages
+//read the input file
+
+//output the report

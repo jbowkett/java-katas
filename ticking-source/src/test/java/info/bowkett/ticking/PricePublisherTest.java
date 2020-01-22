@@ -1,9 +1,5 @@
 package info.bowkett.ticking;
 
-import info.bowkett.ticking.Price;
-import info.bowkett.ticking.PriceFactory;
-import info.bowkett.ticking.PricePublisher;
-import info.bowkett.ticking.PriceSink;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -45,6 +41,6 @@ public class PricePublisherTest {
     final Price p = new Price("GB012345678", 40.0, 44.0, 42.0);
     when(firstPriceFactory.next()).thenReturn(p);
     pricePublisher.publishPriceForRandomInstrument();
-    verify(priceSink).addPrice(p);
+    verify(priceSink).add(p);
   }
 }
